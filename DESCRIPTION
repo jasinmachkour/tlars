@@ -1,0 +1,31 @@
+Package: tlars
+Title: The Terminated-LARS (tlars) algorithm for high-dimensional early terminated forward variable selection
+Version: 0.0.0.9000
+Authors@R: 
+    c(
+    person("Jasin", "Machkour", , "jasin.machkour@tu-darmstadt.de", role = c("aut", "cre")),
+    person("Simon", "Tien", , email = "simon.tien@stud.tu-darmstadt.de", role = "aut"),
+    person(c("Daniel", "P."), "Palomar", , "daniel.p.palomar@gmail.com", role = "aut"),
+    person("Michael", "Muma", , "michael.muma@tu-darmstadt.de", role = "aut")
+    )
+Description: Computes the solution path of the Terminated-LARS (tlars) algorithm. The tlars algorithm is a major building block of the Terminating-Knockoff (T-Knock) Filter (see R package 'tknock').
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Imports: 
+    RcppArmadillo,
+    Rcpp,
+    methods
+Depends: 
+    R (>= 2.10)
+LinkingTo: 
+    RcppArmadillo,
+    Rcpp
+VignetteBuilder: knitr
