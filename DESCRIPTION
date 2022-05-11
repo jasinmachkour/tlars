@@ -1,6 +1,11 @@
 Package: tlars
-Title: The Terminated-LARS (tlars) algorithm for high-dimensional early terminated forward variable selection
+Title: The Terminated-LARS (T-LARS) algorithm for high-dimensional early terminated forward variable selection
 Version: 0.0.0.9000
+Date: 2022-04-18
+Description: Computes the solution path of the Terminated-LARS (tlars) algorithm. The tlars algorithm 
+    is a major building block of the Terminating-Knockoff (T-Knock) Filter (see R package "tknock").
+    The package is based on the papers Machkour, Muma, and Palomar (2021), Efron, Hastie, Johnstone, 
+    and Tibshirani (2004), and Tibshirani (1996).
 Authors@R: 
     c(
     person("Jasin", "Machkour", , "jasin.machkour@tu-darmstadt.de", role = c("aut", "cre")),
@@ -8,7 +13,10 @@ Authors@R:
     person(c("Daniel", "P."), "Palomar", , "daniel.p.palomar@gmail.com", role = "aut"),
     person("Michael", "Muma", , "michael.muma@tu-darmstadt.de", role = "aut")
     )
-Description: Computes the solution path of the Terminated-LARS (tlars) algorithm. The tlars algorithm is a major building block of the Terminating-Knockoff (T-Knock) Filter (see R package 'tknock').
+Maintainer: Jasin Machkour <jasin.machkour@tu-darmstadt.de>
+URL: https://github.com/jasinmachkour/tlars,
+     https://arxiv.org/abs/2110.06048
+BugReports: https://github.com/jasinmachkour/tlars/issues
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
