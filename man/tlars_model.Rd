@@ -19,7 +19,7 @@ tlars_model(
 \arguments{
 \item{lars_state}{Variables associated with previous stopping point (necessary to restart
 the forward selection process exactly where it was previously terminated). The lars_state
-is extracted from an object of class tlars_cpp via $get_all() and is only required when the
+is extracted from an object of class tlars_cpp via get_all() and is only required when the
 object (or its pointer) of class tlars_cpp is deleted or got lost in another R session (e.g.,
 in parallel processing).}
 
@@ -52,7 +52,7 @@ y = drop(Gauss_data$y)
 p = ncol(X)
 n = nrow(X)
 dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-XK = cbind(X, dummies)
-mod_tlars = tlars_model(X = XK, y = y, num_dummies = ncol(dummies))
+X_D = cbind(X, dummies)
+mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
 mod_tlars
 }
