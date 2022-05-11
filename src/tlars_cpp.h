@@ -16,7 +16,7 @@ class tlars_cpp
 public:
 
     // Constructors
-    tlars_cpp(arma::mat X, arma::vec y, bool verbose, bool intercept, bool standardize, int num_knocks, std::string type);
+    tlars_cpp(arma::mat X, arma::vec y, bool verbose, bool intercept, bool standardize, int num_dummies, std::string type);
     tlars_cpp(Rcpp::List lars_state);
 
     // Methods
@@ -26,8 +26,8 @@ public:
     std::vector<double> get_beta();
     std::list<std::vector<double>> get_beta_path();
     int get_num_active();
-    int get_num_active_knocks();
-    int get_num_knocks();
+    int get_num_active_dummies();
+    int get_num_dummies();
     std::list<int> get_actions();
     std::list<int> get_df();
     std::list<double> get_R2();
@@ -46,7 +46,7 @@ public:
     bool verbose;
     bool intercept;
     bool standardize;
-    int num_knocks;
+    int num_dummies;
     std::string type;
 
 
@@ -111,7 +111,7 @@ private:
     int i;
     int j;
     int counter;
-    int count_knockoffs;
+    int count_dummies;
     std::list<int>::iterator it;
     std::list<int>::iterator inner_it;
     std::list<double>::iterator double_it;

@@ -8,7 +8,7 @@ tlars_model(
   lars_state,
   X,
   y,
-  num_knocks,
+  num_dummies,
   verbose = FALSE,
   intercept = FALSE,
   standardize = TRUE,
@@ -27,7 +27,7 @@ in parallel processing).}
 
 \item{y}{Response vector.}
 
-\item{num_knocks}{Number of knockoffs that are appended to the predictor matrix.}
+\item{num_dummies}{Number of dummies that are appended to the predictor matrix.}
 
 \item{verbose}{Logical. If TRUE progress in computations is shown.}
 
@@ -51,8 +51,8 @@ X = Gauss_data$X
 y = drop(Gauss_data$y)
 p = ncol(X)
 n = nrow(X)
-knocks = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-XK = cbind(X, knocks)
-mod_tlars = tlars_model(X = XK, y = y, num_knocks = ncol(knocks))
+dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+XK = cbind(X, dummies)
+mod_tlars = tlars_model(X = XK, y = y, num_dummies = ncol(dummies))
 mod_tlars
 }

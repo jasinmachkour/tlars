@@ -2,7 +2,7 @@
 #'
 #' Prints a summary of the results stored in a C++ object of class tlars_cpp
 #' (see [tlars_model] for details), i.e., selected variables, computation time,
-#' and number of included knockoffs.
+#' and number of included dummies.
 #'
 #' @param tlars_model Object of the class tlars_cpp. See [tlars_model] for details.
 #' @param ... Additional parameters to print. See [print] for details.
@@ -19,9 +19,9 @@
 #' y = drop(Gauss_data$y)
 #' p = ncol(X)
 #' n = nrow(X)
-#' knocks = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-#' XK = cbind(X, knocks)
-#' mod_tlars = tlars_model(X = XK, y = y, num_knocks = ncol(knocks))
+#' dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+#' X_D = cbind(X, dummies)
+#' mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
 #' tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 #' print(mod_tlars)
 print.Rcpp_tlars_cpp = function(tlars_model, ...) {
@@ -38,12 +38,12 @@ print.Rcpp_tlars_cpp = function(tlars_model, ...) {
   eps = .Machine$double.eps
 
   # Retrieve data to be printed from C++ object of class tlars_cpp
-  T_stop = tlars_model$get_num_active_knocks()
-  num_knocks = tlars_model$get_num_knocks()
+  T_stop = tlars_model$get_num_active_dummies()
+  num_dummies = tlars_model$get_num_dummies()
   beta = tlars_model$get_beta()
 
-  # Number of original variables (without knockoffs)
-  p = length(beta) - num_knocks
+  # Number of original variables (without dummies)
+  p = length(beta) - num_dummies
 
   # Get name of C++ object passed to function argument "model"
   mod_name = deparse(substitute(tlars_model))
@@ -59,10 +59,10 @@ print.Rcpp_tlars_cpp = function(tlars_model, ...) {
     "'",
     mod_name,
     "' is a C++ object of class 'tlars_cpp' ... \n",
-    "\t - Number of knockoffs: ",
-    num_knocks,
+    "\t - Number of dummies: ",
+    num_dummies,
     ".\n",
-    "\t - Number of included knockoffs: ",
+    "\t - Number of included dummies: ",
     T_stop,
     ".\n",
     "\t - Selected variables: ",

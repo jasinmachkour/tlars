@@ -6,14 +6,14 @@
 \usage{
 \method{plot}{Rcpp_tlars_cpp}(
   tlars_model,
-  include_knocks = TRUE,
+  include_dummies = TRUE,
   actions = TRUE,
   col_selected = "black",
-  col_knocks = "red",
-  xlab = "# Included knockoffs",
+  col_dummies = "red",
+  xlab = "# Included dummies",
   ylab = "Coefficients",
   lty_selected = "solid",
-  lty_knocks = "dashed",
+  lty_dummies = "dashed",
   legend_pos = "topleft",
   ...
 )
@@ -21,14 +21,14 @@
 \arguments{
 \item{tlars_model}{Object of the class tlars_cpp. See \link{tlars_model} for details.}
 
-\item{include_knocks}{Logical. If TRUE solution paths of knockoffs are added to the plot.}
+\item{include_dummies}{Logical. If TRUE solution paths of dummies are added to the plot.}
 
 \item{actions}{Logical. If TRUE axis above plot with indices of added variables
-(Knockoffs represented by 'K') along the solution path is added.}
+(Dummies represented by 'D') along the solution path is added.}
 
 \item{col_selected}{Color of lines corresponding to selected variables.}
 
-\item{col_knocks}{Color of lines corresponding to included knockoffs.}
+\item{col_dummies}{Color of lines corresponding to included dummies.}
 
 \item{xlab}{Label of the x-axis.}
 
@@ -37,7 +37,7 @@
 \item{lty_selected}{Line type of lines corresponding to selected variables.
 See \link{par} for more details.}
 
-\item{lty_knocks}{Line type of lines corresponding to included knockoffs.
+\item{lty_dummies}{Line type of lines corresponding to included dummies.
 See \link{par} for more details.}
 
 \item{legend_pos}{Legend position. See \link{xy.coords} for more details.}
@@ -55,9 +55,9 @@ X = Gauss_data$X
 y = drop(Gauss_data$y)
 p = ncol(X)
 n = nrow(X)
-knocks = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-XK = cbind(X, knocks)
-mod_tlars = tlars_model(X = XK, y = y, num_knocks = ncol(knocks))
+dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+X_D = cbind(X, dummies)
+mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
 tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 plot(mod_tlars)
 }

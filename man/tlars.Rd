@@ -9,9 +9,9 @@ tlars(model, T_stop = 1, early_stop = TRUE, info = TRUE)
 \arguments{
 \item{model}{Object of the class tlars_cpp.}
 
-\item{T_stop}{Number of included knockoffs after which the random experiments (i.e., forward selection processes) are stopped.}
+\item{T_stop}{Number of included dummies after which the random experiments (i.e., forward selection processes) are stopped.}
 
-\item{early_stop}{Logical. If TRUE, then the forward selection process is stopped after T_stop knockoffs have been included. Otherwise
+\item{early_stop}{Logical. If TRUE, then the forward selection process is stopped after T_stop dummies have been included. Otherwise
 the entire solution path is computed.}
 
 \item{info}{If TRUE information about the T-LARS step are printed.}
@@ -25,9 +25,9 @@ X = Gauss_data$X
 y = drop(Gauss_data$y)
 p = ncol(X)
 n = nrow(X)
-knocks = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-XK = cbind(X, knocks)
-mod_tlars = tlars_model(X = XK, y = y, num_knocks = ncol(knocks))
+dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+XK = cbind(X, dummies)
+mod_tlars = tlars_model(X = XK, y = y, num_dummies = ncol(dummies))
 tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 beta = mod_tlars$get_beta()
 beta

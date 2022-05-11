@@ -11,21 +11,21 @@
 // //' @field new Constructor \itemize{
 // //' \item Paramter: X - real-valued predictor matrix
 // //' \item Paramter: y - response vector
-// //' \item Parameter num_knocks - determines the number of generated knockoff variables that have been added to the end of the predictor matrix
+// //' \item Parameter num_dummies - determines the number of generated dummy variables that have been added to the end of the predictor matrix
 // //' \item Paramter: verbose - determines whether information will be printed into console
 // //' \item Paramter: intercept - determines whether the mean will be removed beforehand
 // //' \item Paramter: standardize - determines wheter the data will be standardized to unit L2 norm
 // //' \item Paramter: type - use 'lasso' if the algorithm should be executed with the Lasso modification
 // //' }
 // //' @field execute_lars_step Execute lars steps until a stopping-condition is satisfied \itemize{
-// //' \item Parameter: T_stop - total number of knockoffs at which the algorithm should be paused
+// //' \item Parameter: T_stop - total number of dummies at which the algorithm should be paused
 // //' \item Parameter: early_stop - set to false when the complete LARS algorithm should be executed
 // //' }
 // //' @field get_beta Getter for the estimate of the beta vector
 // //' @field get_beta_path Getter for a matrix that includes the estimates of the beta vectors at all steps
 // //' @field get_num_active Getter for the number of active predictors
-// //' @field get_num_active_knocks Getter for the number of knockoff predictors that have been activated
-// //' @field get_num_knocks Getter for the number of knockoff predictors
+// //' @field get_num_active_dummies Getter for the number of dummy predictors that have been activated
+// //' @field get_num_dummies Getter for the number of dummy predictors
 // //' @field get_actions
 // //' @field get_df Getter for degrees of freedom at each step which is given by number of active variables (+1 if intercept is true)
 // //' @field get_R2 Getter for the R^2 statistic at each step
@@ -51,17 +51,17 @@
  * @param verbose Logical. If TRUE progress in computations is shown.
  * @param intercept determines whether the mean will be removed beforehand
  * @param standardize determines whether the data will be standardized to unit L2 norm
- * @param num_knocks Number of knockoffs that are appended to the predictor matrix.
+ * @param num_dummies Number of dummies that are appended to the predictor matrix.
  * @param type 'lar' for 'LARS' and 'lasso' for Lasso.
  */
-tlars_cpp::tlars_cpp(arma::mat X, arma::vec y, bool verbose, bool intercept, bool standardize, int num_knocks, std::string type)
+tlars_cpp::tlars_cpp(arma::mat X, arma::vec y, bool verbose, bool intercept, bool standardize, int num_dummies, std::string type)
 {
     this->X = X;
     this->y = y;
     this->verbose = verbose;
     this->intercept = intercept;
     this->standardize = standardize;
-    this->num_knocks = num_knocks;
+    this->num_dummies = num_dummies;
     this->type = type;
     initialize_values();
 }
@@ -129,25 +129,25 @@ std::list<std::vector<double>> tlars_cpp::get_beta_path()
  */
 int tlars_cpp::get_num_active()
 {
-    return count_active_pred - count_knockoffs;
+    return count_active_pred - count_dummies;
 }
 
-/** Returns the number of knockoff predictors that have been included
+/** Returns the number of dummy predictors that have been included
  *
- * @return num_active_knocks
+ * @return num_active_dummies
  */
-int tlars_cpp::get_num_active_knocks()
+int tlars_cpp::get_num_active_dummies()
 {
-    return count_knockoffs;
+    return count_dummies;
 }
 
-/** Returns the number of knockoff predictors
+/** Returns the number of dummy predictors
  *
- * @return num_knocks
+ * @return num_dummies
  */
- int tlars_cpp::get_num_knocks()
+ int tlars_cpp::get_num_dummies()
 {
-    return num_knocks;
+    return num_dummies;
 }
 
 /** Returns the indices of added/removed variables along the solution path
@@ -313,12 +313,12 @@ Rcpp::List tlars_cpp::get_all()
                          Rcpp::Named("drop_ind") = drop_ind,
                          Rcpp::Named("sign_vec") = sign_vec,
                          Rcpp::Named("verbose") = verbose,
-                         Rcpp::Named("L_val") = num_knocks,
+                         Rcpp::Named("L_val") = num_dummies,
                          Rcpp::Named("standardize") = standardize,
                          Rcpp::Named("intercept") = intercept,
                          Rcpp::Named("type") = type,
                          Rcpp::Named("step_type") = step_type,
-                         Rcpp::Named("count_knockoffs") = count_knockoffs,
+                         Rcpp::Named("count_dummies") = count_dummies,
                          Rcpp::Named("k") = k,
                          Rcpp::Named("e_stop") = e_stop,
                          Rcpp::Named("gamhat1") = gamhat1,
@@ -369,8 +369,8 @@ void tlars_cpp::initialize_values()
         effective_n  = n-1;
     }
 
-    // initialize knockoff counter
-    count_knockoffs = 0;
+    // initialize dummy counter
+    count_dummies = 0;
 
     // initialize the list that lists all predictors (all are inactive at the start)
     count_active_pred = 0;
@@ -569,12 +569,12 @@ void tlars_cpp::initialize_values(Rcpp::List lars_state)
     drop_ind = Rcpp::as<std::list<int>>(l3["drop_ind"]);
     sign_vec = Rcpp::as<arma::vec>(l3["sign_vec"]);
     verbose = l3["verbose"];
-    num_knocks = l3["L_val"];
+    num_dummies = l3["L_val"];
     standardize = l3["standardize"];
     intercept = l3["intercept"];
     type = Rcpp::as<std::string>(l3["type"]);
     step_type = Rcpp::as<std::string>(l3["step_type"]);
-    count_knockoffs = l3["count_knockoffs"];
+    count_dummies = l3["count_dummies"];
     k = l3["k"];
     e_stop = l3["e_stop"];
     gamhat1 = Rcpp::as<arma::vec>(l3["gamhat1"]);
@@ -593,21 +593,21 @@ void tlars_cpp::initialize_values(Rcpp::List lars_state)
 
 /** Executes lars steps until a stopping-condition is satisfied
  *
- * @param T_stop Number of included knockoffs after which the random experiments (i.e., forward selection processes) are stopped.
- * @param early_stop Logical. If TRUE, then the forward selection process is stopped after T_stop knockoffs have been included. Otherwise
+ * @param T_stop Number of included dummies after which the random experiments (i.e., forward selection processes) are stopped.
+ * @param early_stop Logical. If TRUE, then the forward selection process is stopped after T_stop dummies have been included. Otherwise
  * the entire solution path is computed.
  */
 void tlars_cpp::execute_lars_step(int T_stop, bool early_stop)
 {
 
-    // Determine the index of the first knockoff
-    int knockoff_ind = p - num_knocks;
+    // Determine the index of the first dummy
+    int dummy_ind = p - num_dummies;
 
     //Begin LARS-algorithm
     while (k < max_steps&&
             count_inactive_pred > 0 &&
             count_active_pred < effective_n &&
-            (count_knockoffs < T_stop || early_stop == false))
+            (count_dummies < T_stop || early_stop == false))
     {
         //Obtain correlations of all inactive predictors
         arma::vec corr_inactive(count_inactive_pred);
@@ -687,10 +687,10 @@ void tlars_cpp::execute_lars_step(int T_stop, bool early_stop)
                     active_pred.push_back(*it);
                     actions.push_back(*it+1);
 
-                    // Add 1 to the knockoff counter if the corresponding predictor was a knockoff.
-                    if (*it>=knockoff_ind)
+                    // Add 1 to the dummy counter if the corresponding predictor was a dummy.
+                    if (*it>=dummy_ind)
                     {
-                        count_knockoffs++;
+                        count_dummies++;
                     }
                     count_active_pred++;
                 }
@@ -825,9 +825,9 @@ void tlars_cpp::execute_lars_step(int T_stop, bool early_stop)
                     counter++;
                     active_pred.erase(it++);
                     //++it;
-                    if (*it>=knockoff_ind)
+                    if (*it>=dummy_ind)
                     {
-                        count_knockoffs--;
+                        count_dummies--;
                     }
                 }
                 else

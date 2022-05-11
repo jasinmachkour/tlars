@@ -14,7 +14,7 @@
 \description{
 Prints a summary of the results stored in a C++ object of class tlars_cpp
 (see \link{tlars_model} for details), i.e., selected variables, computation time,
-and number of included knockoffs.
+and number of included dummies.
 }
 \examples{
 data('Gauss_data')
@@ -22,9 +22,9 @@ X = Gauss_data$X
 y = drop(Gauss_data$y)
 p = ncol(X)
 n = nrow(X)
-knocks = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-XK = cbind(X, knocks)
-mod_tlars = tlars_model(X = XK, y = y, num_knocks = ncol(knocks))
+dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+X_D = cbind(X, dummies)
+mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
 tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 print(mod_tlars)
 }

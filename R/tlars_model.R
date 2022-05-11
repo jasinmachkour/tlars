@@ -9,7 +9,7 @@
 #' in parallel processing).
 #' @param X Real valued Predictor matrix.
 #' @param y Response vector.
-#' @param num_knocks Number of knockoffs that are appended to the predictor matrix.
+#' @param num_dummies Number of dummies that are appended to the predictor matrix.
 #' @param verbose Logical. If TRUE progress in computations is shown.
 #' @param intercept Logical. If TRUE an intercept is included.
 #' @param standardize Logical. If TRUE the predictors are standardized and the response is centered.
@@ -28,14 +28,14 @@
 #' y = drop(Gauss_data$y)
 #' p = ncol(X)
 #' n = nrow(X)
-#' knocks = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-#' XK = cbind(X, knocks)
-#' mod_tlars = tlars_model(X = XK, y = y, num_knocks = ncol(knocks))
+#' dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+#' X_D = cbind(X, dummies)
+#' mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
 #' mod_tlars
 tlars_model = function(lars_state,
                        X,
                        y,
-                       num_knocks,
+                       num_dummies,
                        verbose = FALSE,
                        intercept = FALSE,
                        standardize = TRUE,
@@ -49,7 +49,7 @@ tlars_model = function(lars_state,
       verbose = verbose,
       intercept = intercept,
       standardize = standardize,
-      num_knocks = num_knocks,
+      num_dummies = num_dummies,
       type = type
     )
   } else{
@@ -65,13 +65,13 @@ tlars_model = function(lars_state,
     mes = paste0(
       "Created an object of class tlars_cpp... \n",
       "\t\t The first ",
-      ncol(X) - num_knocks,
+      ncol(X) - num_dummies,
       " predictors in '",
       pred_mat_name,
       "' are the original predictors and \n",
       "\t\t the last ",
-      num_knocks,
-      " predictors are knockoffs."
+      num_dummies,
+      " predictors are dummies"
     )
     message(mes)
   }

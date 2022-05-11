@@ -85,7 +85,7 @@ p = 300 # number of variables
 num_act = 10 # number of true active variables
 beta = c(rep(0.75, times = num_act), rep(0, times = p - num_act)) # coefficient vector
 actives = which(beta > 0) # indices of true active variables
-L = p # number of knockoffs
+num_dummies = p # number of dummies
 
 # Generate Gaussian data
 set.seed(123)
@@ -93,20 +93,20 @@ X = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
 y = X %*% beta + stats::rnorm(n)
 ```
 
-**Second**, we generate a knockoff matrix (null/non-active/dummy predictors) with n rows and L knockoff predictors and append it to the original predictor matrix:
+**Second**, we generate a dummy matrix (null/non-active/dummy predictors) with n rows and num_dummy dummy predictors and append it to the original predictor matrix:
 ```{r}
 set.seed(1234)
-knocks = matrix(stats::rnorm(n * L), nrow = n, ncol = L)
-XK = cbind(X, knocks)
+dummies = matrix(stats::rnorm(n * num_dummies), nrow = n, ncol = num_dummies)
+X_D = cbind(X, dummies)
 ```
 
-**Third**, we generate an object of the class tlarsCpp and supply the information that the last "L_val" predictors in "XK" are knockoff predictors:
+**Third**, we generate an object of the class tlarsCpp and supply the information that the last "num_dummies" predictors in "X_D" are dummy predictors:
 ```{r}
-mod_tlars = tlars_model(X = XK, y = y, num_knocks = ncol(knocks))
+mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
 mod_tlars
 ```
 
-Finally, we perform a tlars-step on "mod_tlars", i.e., the LARS algorithm is run until "T_stop = 1" knockoffs have entered the solution path and stops there.
+Finally, we perform a tlars-step on "mod_tlars", i.e., the LARS algorithm is run until "T_stop = 1" dummies have entered the solution path and stops there.
 
 **An illustrative example**:
 
@@ -116,18 +116,18 @@ Finally, we perform a tlars-step on "mod_tlars", i.e., the LARS algorithm is run
 
 ```{r}
 tlars(model = mod_tlars, T_stop = 1, early_stop = TRUE) # performing T-LARS-step on object "larsObj"
-beta_hat = mod_tlars$get_beta() # coefficient vector of original variables and knockoffs at the stopping point
+beta_hat = mod_tlars$get_beta() # coefficient vector of original variables and dummies at the stopping point
 
 eps = .Machine$double.eps # numerical zero
 
 selected_T_1 = which(abs(beta_hat[seq(p)]) > eps) # indices of selected original variables
-selected_knock_T_1 = p + which(abs(beta_hat[seq(p + 1, ncol(XK))]) > eps) # indices of selected knockoff variables
+selected_dummy_T_1 = p + which(abs(beta_hat[seq(p + 1, ncol(X_D))]) > eps) # indices of selected dummy variables
 
 FDP_T_1 = length(setdiff(selected_T_1, actives)) / max(1, length(selected_T_1)) # false discovery proportion (FDP)
 TPP_T_1 = length(intersect(selected_T_1, actives)) / max(1, length(actives)) # true positive proportion (TPP)
 
 selected_T_1
-selected_knock_T_1
+selected_dummy_T_1
 FDP_T_1
 TPP_T_1
 ```
@@ -142,13 +142,13 @@ tlars(model = mod_tlars, T_stop = 5, early_stop = TRUE)
 beta_hat = mod_tlars$get_beta()
 
 selected_T_5 = which(abs(beta_hat[seq(p)]) > eps)
-selected_knock_T_5 = p + which(abs(beta_hat[seq(p + 1, ncol(XK))]) > eps)
+selected_dummy_T_5 = p + which(abs(beta_hat[seq(p + 1, ncol(X_D))]) > eps)
 
 FDP_T_5 = length(setdiff(selected_T_5, actives)) / max(1, length(selected_T_5))
 TPP_T_5 = length(intersect(selected_T_5, actives)) / max(1, length(actives))
 
 selected_T_5
-selected_knock_T_5
+selected_dummy_T_5
 FDP_T_5
 TPP_T_5
 ```
@@ -160,13 +160,13 @@ tlars(model = mod_tlars, T_stop = 10, early_stop = TRUE)
 beta_hat = mod_tlars$get_beta()
 
 selected_T_10 = which(abs(beta_hat[seq(p)]) > eps)
-selected_knock_T_10 = p + which(abs(beta_hat[seq(p + 1, ncol(XK))]) > eps)
+selected_dummy_T_10 = p + which(abs(beta_hat[seq(p + 1, ncol(X_D))]) > eps)
 
 FDP_T_10 = length(setdiff(selected_T_10, actives)) / max(1, length(selected_T_10))
 TPP_T_10 = length(intersect(selected_T_10, actives)) / max(1, length(actives))
 
 selected_T_10
-selected_knock_T_10
+selected_dummy_T_10
 FDP_T_10
 TPP_T_10
 ```
@@ -202,7 +202,7 @@ $$
 respectively.
 
 # Simulations
-In order to validate our observations from the illustrative example above, we conduct Monte Carlo simulations and plot the resulting averaged FDP and TPP over the number of included knockoffs T. Note that the averaged FDP and TPP are estimates of the FDR and TPR, respectively.
+In order to validate our observations from the illustrative example above, we conduct Monte Carlo simulations and plot the resulting averaged FDP and TPP over the number of included dummies T. Note that the averaged FDP and TPP are estimates of the FDR and TPR, respectively.
 
 ```{r}
 # Setup
@@ -211,8 +211,8 @@ p = 300 # number of variables
 num_act = 10 # number of true active variables
 beta = c(rep(3, times = num_act), rep(0, times = p - num_act)) # coefficient vector
 actives = which(beta > 0) # indices of true active variables
-L = p # number of knockoffs
-T_vec = c(1, 2, 5, 10, 20, 50, 100) # stopping points, i.e, number of included knockoffs before terminating the solution path
+num_dummies = p # number of dummies
+T_vec = c(1, 2, 5, 10, 20, 50, 100) # stopping points, i.e, number of included dummies before terminating the solution path
 MC = 500 # number of Monte Carlo runs per stopping point
 
 # Initialize results vectors
@@ -231,12 +231,12 @@ for(t in seq_along(T_vec)){
     X = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
     y = X %*% beta + stats::rnorm(n)
     
-    # Generate knockoff matrix and append it to X
-    knocks = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-    XK = cbind(X, knocks)
+    # Generate dummy matrix and append it to X
+    dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+    X_D = cbind(X, dummies)
     
     # Create tlarsCpp object
-    mod_tlars = tlars_model(X = XK, y = y, num_knocks = L, type = 'lar', info = FALSE)
+    mod_tlars = tlars_model(X = X_D, y = y, num_dummies = num_dummies, type = 'lar', info = FALSE)
     
     # Run T-LARS-steps
     tlars(model = mod_tlars, T_stop = t, early_stop = TRUE, info = FALSE)

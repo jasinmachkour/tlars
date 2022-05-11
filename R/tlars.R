@@ -3,8 +3,8 @@
 #' Modifies the generic tlars_cpp model by executing the T-LARS algorithm and including the results in the tlars_cpp model.
 #'
 #' @param model Object of the class tlars_cpp.
-#' @param T_stop Number of included knockoffs after which the random experiments (i.e., forward selection processes) are stopped.
-#' @param early_stop Logical. If TRUE, then the forward selection process is stopped after T_stop knockoffs have been included. Otherwise
+#' @param T_stop Number of included dummies after which the random experiments (i.e., forward selection processes) are stopped.
+#' @param early_stop Logical. If TRUE, then the forward selection process is stopped after T_stop dummies have been included. Otherwise
 #' the entire solution path is computed.
 #' @param info If TRUE information about the T-LARS step are printed.
 #'
@@ -23,9 +23,9 @@
 #' y = drop(Gauss_data$y)
 #' p = ncol(X)
 #' n = nrow(X)
-#' knocks = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-#' XK = cbind(X, knocks)
-#' mod_tlars = tlars_model(X = XK, y = y, num_knocks = ncol(knocks))
+#' dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+#' X_D = cbind(X, dummies)
+#' mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
 #' tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 #' beta = mod_tlars$get_beta()
 #' beta
