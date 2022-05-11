@@ -5,39 +5,6 @@
 #include <iterator>
 #include <iostream>
 
-// //' @name tlars_cpp
-// //' @title tlars-class
-// //' @description Type the name of the object to see its methods
-// //' @field new Constructor \itemize{
-// //' \item Paramter: X - real-valued predictor matrix
-// //' \item Paramter: y - response vector
-// //' \item Parameter num_dummies - determines the number of generated dummy variables that have been added to the end of the predictor matrix
-// //' \item Paramter: verbose - determines whether information will be printed into console
-// //' \item Paramter: intercept - determines whether the mean will be removed beforehand
-// //' \item Paramter: standardize - determines wheter the data will be standardized to unit L2 norm
-// //' \item Paramter: type - use 'lasso' if the algorithm should be executed with the Lasso modification
-// //' }
-// //' @field execute_lars_step Execute lars steps until a stopping-condition is satisfied \itemize{
-// //' \item Parameter: T_stop - total number of dummies at which the algorithm should be paused
-// //' \item Parameter: early_stop - set to false when the complete LARS algorithm should be executed
-// //' }
-// //' @field get_beta Getter for the estimate of the beta vector
-// //' @field get_beta_path Getter for a matrix that includes the estimates of the beta vectors at all steps
-// //' @field get_num_active Getter for the number of active predictors
-// //' @field get_num_active_dummies Getter for the number of dummy predictors that have been activated
-// //' @field get_num_dummies Getter for the number of dummy predictors
-// //' @field get_actions
-// //' @field get_df Getter for degrees of freedom at each step which is given by number of active variables (+1 if intercept is true)
-// //' @field get_R2 Getter for the R^2 statistic at each step
-// //' @field get_RSS Getter for the residual sum of squares at each step
-// //' @field get_Cp Getter for the Cp-statistic at each step
-// //' @field get_lambda Getter for a vector that includes when the predictors entered the active set for the first time
-// //' @field get_entry Getter for a vector that includes when the predictors entered the active set for the first time
-// //' @field get_mu Getter for the sample mean of the response y
-// //' @field get_norm_X Getter for the L2-norm of the predictors
-// //' @field get_mean_X Getter for the sample mean of the predictors
-// //' @field get_all Getter for all class variables: This list can be used as an input of the constructor to re-create the object
-
 
 
 // Constructors
@@ -49,10 +16,10 @@
  * @param X Real valued Predictor matrix.
  * @param y Response vector.
  * @param verbose Logical. If TRUE progress in computations is shown.
- * @param intercept determines whether the mean will be removed beforehand
- * @param standardize determines whether the data will be standardized to unit L2 norm
+ * @param intercept Logical. If TRUE an intercept is included.
+ * @param standardize Logical. If TRUE the predictors are standardized and the response is centered.
  * @param num_dummies Number of dummies that are appended to the predictor matrix.
- * @param type 'lar' for 'LARS' and 'lasso' for Lasso.
+ * @param type Type of used algorithm (currently possible choices: 'lar' or 'lasso').
  */
 tlars_cpp::tlars_cpp(arma::mat X, arma::vec y, bool verbose, bool intercept, bool standardize, int num_dummies, std::string type)
 {
@@ -76,7 +43,7 @@ tlars_cpp::tlars_cpp(arma::mat X, arma::vec y, bool verbose, bool intercept, boo
  * The object can then be re-created when the list with all class variables was extracted from the
  * previous object using get_all().
  *
- * @param lars_state Input list that was extracted from a previous tlars_cpp object using get_all()
+ * @param lars_state Input list that was extracted from a previous tlars_cpp object using get_all().
  */
 tlars_cpp::tlars_cpp(Rcpp::List lars_state)
 {
@@ -591,7 +558,7 @@ void tlars_cpp::initialize_values(Rcpp::List lars_state)
 
 }
 
-/** Executes lars steps until a stopping-condition is satisfied
+/** Executes LARS-steps until a stopping-condition is satisfied
  *
  * @param T_stop Number of included dummies after which the random experiments (i.e., forward selection processes) are stopped.
  * @param early_stop Logical. If TRUE, then the forward selection process is stopped after T_stop dummies have been included. Otherwise
