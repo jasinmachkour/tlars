@@ -1,0 +1,280 @@
+---
+title: "The Terminating-LARS (T-LARS) Method: Usage and Simulations"
+author: |
+  | Jasin Machkour^\#^, Simon Tien^\#^, Daniel P. Palomar^\*^, Michael Muma^\#^
+  |
+  | ^\#^Technische Universität Darmstadt
+  | ^\*^The Hong Kong University of Science and Technology
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    theme: flatly
+    highlight: pygments
+    toc: true
+    toc_depth: 1
+    toc_float: true
+  prettydoc::html_pretty:
+    theme: tactile
+    highlight: vignette
+    toc: yes
+    toc_depth: 2
+toc-title: "Table of Contents"    
+csl: the-annals-of-statistics.csl # https://www.zotero.org/styles
+bibliography: refs.bib
+nocite: |
+  @machkour2021terminating, @candes2018panning, @barber2015controlling
+vignette: |
+  %\VignetteKeyword{T-LARS, T-Knock filter, false discovery rate (FDR) control, high-dimensional variable selection, martingale theory, genome-wide association studies}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{The Terminating-LARS (T-LARS) Method: Usage and Simulations}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.align = "center",
+  fig.retina = 2,
+  out.width = "85%",
+  dpi = 96
+  # pngquant = "--speed=1"
+)
+options(width=80)
+# knit_hooks$set(pngquant = hook_pngquant)
+```
+
+-----------
+# Motivation
+It computes the solution path of the Terminated-LARS (T-LARS) algorithm. The T_LARS algorithm is a major building block of the Terminating-Knockoff (T-Knock) Filter. The T-Knock filter paper and the corresponding R package are available at [T-Knock paper](https://arxiv.org/abs/2110.06048) and [R package "tknock"](https://github.com/jasinmachkour/tknock), respectively.
+
+
+# Installation
+You can install the tlars package from [GitHub](https://github.com/jasinmachkour/tlars) with 
+
+``` r
+install.packages("devtools")
+devtools::install_github("jasinmachkour/tlars")
+```
+
+You can open the help pages with
+```{r, eval=FALSE}
+library(tlars)
+help(package = "tlars")
+?tlars
+?tlars_model
+```
+
+To cite the package ‘tlars’ in publications use:
+```{r, eval=FALSE}
+citation("tlars")
+```
+
+
+# Quick Start
+In the following, we illustrate the basic usage of the tlars package to perform variable selection in sparse and high-dimensional regression settings using the T-LARS algorithm.
+
+**First**, we generate a high-dimensional Gaussian data set with sparse support:
+```{r}
+library(tlars)
+
+# Setup
+n = 100 # number of observations
+p = 300 # number of variables
+num_act = 10 # number of true active variables
+beta = c(rep(0.75, times = num_act), rep(0, times = p - num_act)) # coefficient vector
+actives = which(beta > 0) # indices of true active variables
+L = p # number of knockoffs
+
+# Generate Gaussian data
+set.seed(123)
+X = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+y = X %*% beta + stats::rnorm(n)
+```
+
+**Second**, we generate a knockoff matrix (null/non-active/dummy predictors) with n rows and L knockoff predictors and append it to the original predictor matrix:
+```{r}
+set.seed(1234)
+knocks = matrix(stats::rnorm(n * L), nrow = n, ncol = L)
+XK = cbind(X, knocks)
+```
+
+**Third**, we generate an object of the class tlarsCpp and supply the information that the last "L_val" predictors in "XK" are knockoff predictors:
+```{r}
+mod_tlars = tlars_model(X = XK, y = y, num_knocks = ncol(knocks))
+mod_tlars
+```
+
+Finally, we perform a tlars-step on "mod_tlars", i.e., the LARS algorithm is run until "T_stop = 1" knockoffs have entered the solution path and stops there.
+
+**An illustrative example**:
+
+******
+
+**T_stop = 1**:
+
+```{r}
+tlars(model = mod_tlars, T_stop = 1, early_stop = TRUE) # performing T-LARS-step on object "larsObj"
+beta_hat = mod_tlars$get_beta() # coefficient vector of original variables and knockoffs at the stopping point
+
+eps = .Machine$double.eps # numerical zero
+
+selected_T_1 = which(abs(beta_hat[seq(p)]) > eps) # indices of selected original variables
+selected_knock_T_1 = p + which(abs(beta_hat[seq(p + 1, ncol(XK))]) > eps) # indices of selected knockoff variables
+
+FDP_T_1 = length(setdiff(selected_T_1, actives)) / max(1, length(selected_T_1)) # false discovery proportion (FDP)
+TPP_T_1 = length(intersect(selected_T_1, actives)) / max(1, length(actives)) # true positive proportion (TPP)
+
+selected_T_1
+selected_knock_T_1
+FDP_T_1
+TPP_T_1
+```
+
+# Warm starts
+The object "mod_tlars" stores the results and, therefore, allows for warm starts. That is, after performing a T-LARS-step with, e.g., "T_stop = 1", we can perform another T-LARS-step with, e.g., "T_stop = 2, 3, ...", by continuing to build the solution path from its last stopping point.
+
+**T_stop = 5**:
+
+```{r}
+tlars(model = mod_tlars, T_stop = 5, early_stop = TRUE)
+beta_hat = mod_tlars$get_beta()
+
+selected_T_5 = which(abs(beta_hat[seq(p)]) > eps)
+selected_knock_T_5 = p + which(abs(beta_hat[seq(p + 1, ncol(XK))]) > eps)
+
+FDP_T_5 = length(setdiff(selected_T_5, actives)) / max(1, length(selected_T_5))
+TPP_T_5 = length(intersect(selected_T_5, actives)) / max(1, length(actives))
+
+selected_T_5
+selected_knock_T_5
+FDP_T_5
+TPP_T_5
+```
+
+**T_stop = 10**:
+
+```{r}
+tlars(model = mod_tlars, T_stop = 10, early_stop = TRUE)
+beta_hat = mod_tlars$get_beta()
+
+selected_T_10 = which(abs(beta_hat[seq(p)]) > eps)
+selected_knock_T_10 = p + which(abs(beta_hat[seq(p + 1, ncol(XK))]) > eps)
+
+FDP_T_10 = length(setdiff(selected_T_10, actives)) / max(1, length(selected_T_10))
+TPP_T_10 = length(intersect(selected_T_10, actives)) / max(1, length(actives))
+
+selected_T_10
+selected_knock_T_10
+FDP_T_10
+TPP_T_10
+```
+
+******
+
+<!-- Include Latex macros -->
+::: {.hidden}
+$$
+\DeclareMathOperator{\FDP}{FDP}
+\DeclareMathOperator{\FDR}{FDR}
+\DeclareMathOperator{\TPP}{TPP}
+\DeclareMathOperator{\TPR}{TPR}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\coloneqq}{\mathrel{\vcenter{:}}=}
+$$
+:::
+
+**Observation**: With increasing "T_stop", the number of selected variables increases. As a consequence, the true positive proportion (TPP) increases, as well. However, also the false discovery proportion (FDP) increases. In general, we want to have a large TPP while keeping the FDP low.
+
+**Conclusion**: From a statistical point of view, it is desirable to use a variable selection method that allows for controlling the expected value of the FDP at a user-defined target level $\alpha \in [0, 1]$ while maximizing the number of selected variables. These type of methods exist and are called false discovery rate (FDR)-controlling methods. For example, the [Terminationg-Knockoff (T-Knock) filter](https://arxiv.org/abs/2110.06048) is a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings that relies on the T-LARS method.
+
+**Definitions** (FDR and TPR)
+Let $\widehat{\A} \subseteq \lbrace 1, \ldots, p \rbrace$ be the set of selected variables, $\A \subseteq \lbrace 1, \ldots, p \rbrace$ the set of true active variables, $| \widehat{\A} |$ the cardinality of $\widehat{\A}$, and define $1 \lor a \coloneqq \max\lbrace 1, a \rbrace$, $a \in \mathbb{R}$. Then, the false discovery rate (FDR) and the true positive rate (TPR) are defined by
+$$
+\FDR \coloneqq \mathbb{E} \big[ \FDP \big] \coloneqq \mathbb{E} \left[ \dfrac{\big| \widehat{\A} \backslash \A \big|}{1 \lor \big| \widehat{\A} \big|} \right]
+$$
+and 
+
+$$
+\TPR \coloneqq \mathbb{E} \big[ \TPP \big] \coloneqq \mathbb{E} \left[ \dfrac{| \A  \cap \widehat{\A} |}{1 \lor | \A |} \right],
+$$
+respectively.
+
+# Simulations
+In order to validate our observations from the illustrative example above, we conduct Monte Carlo simulations and plot the resulting averaged FDP and TPP over the number of included knockoffs T. Note that the averaged FDP and TPP are estimates of the FDR and TPR, respectively.
+
+```{r}
+# Setup
+n = 100 # number of observations
+p = 300 # number of variables
+num_act = 10 # number of true active variables
+beta = c(rep(3, times = num_act), rep(0, times = p - num_act)) # coefficient vector
+actives = which(beta > 0) # indices of true active variables
+L = p # number of knockoffs
+T_vec = c(1, 2, 5, 10, 20, 50, 100) # stopping points, i.e, number of included knockoffs before terminating the solution path
+MC = 500 # number of Monte Carlo runs per stopping point
+
+# Initialize results vectors
+FDP = matrix(NA, nrow = MC, ncol = length(T_vec))
+TPP = matrix(NA, nrow = MC, ncol = length(T_vec))
+
+# Numerical zero
+eps = .Machine$double.eps
+
+# Seed
+set.seed(12345)
+
+for(t in seq_along(T_vec)){
+  for(mc in seq(MC)){
+    # Generate Gaussian data
+    X = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+    y = X %*% beta + stats::rnorm(n)
+    
+    # Generate knockoff matrix and append it to X
+    knocks = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+    XK = cbind(X, knocks)
+    
+    # Create tlarsCpp object
+    mod_tlars = tlars_model(X = XK, y = y, num_knocks = L, type = 'lar', info = FALSE)
+    
+    # Run T-LARS-steps
+    tlars(model = mod_tlars, T_stop = t, early_stop = TRUE, info = FALSE)
+    beta_hat = mod_tlars$get_beta()
+    selected_var = which(abs(beta_hat[seq(p)]) > eps)
+    
+    # Results
+    FDP[mc, t] = length(setdiff(selected_var, actives)) / max(1, length(selected_var))
+    TPP[mc, t] = length(intersect(selected_var, actives)) / max(1, length(actives))
+  }
+}
+
+# Compute estimates of FDP and TPP by averaging FDP and TPP over MC Monte Carlo runs
+FDR = colMeans(FDP)
+TPR = colMeans(TPP)
+```
+
+```{r FDR_and_TPR, echo=FALSE, fig.align='center', message=FALSE, fig.width = 9, fig.height = 5, out.width = "75%"}
+# Plot results
+par(mfrow = c(1, 2)) # 1 x 2 plot-grid
+
+# FDP vs. T
+plot(T_vec, FDR, type = 'b', xlab = 'T', xlim = c(0, 100), ylim = c(0, 1), lwd = 1)
+grid()
+
+# TPP vs. T
+plot(T_vec, TPR, type = 'b', xlab = 'T', xlim = c(0, 100), ylim = c(0, 1), lwd = 1)
+grid()
+
+par(mfrow = c(1, 1)) # reset plot-grid
+
+# TPP vs. FDP
+plot(FDR, TPR, type = 'b', ylim = c(0, 1), lwd = 1)
+grid()
+```
+
+
+# Outlook
+The [Terminating-Knockoff (T-Knock) filter](https://arxiv.org/abs/2110.06048) from the R package [tknock](https://github.com/jasinmachkour/tknock) is a fast FDR-controlling method for high-dimensional settings that relies on the T-LARS algorithm implemented in the R package [tlars](https://github.com/jasinmachkour/tlars). It allows to control the FDR at a user defined target level. Check it out if you need a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings!
+
+# References {-}
