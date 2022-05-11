@@ -12,10 +12,10 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
 
-RcppExport SEXP _rcpp_module_boot_tlarsCpp();
+RcppExport SEXP _rcpp_module_boot_tlars_cpp();
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_rcpp_module_boot_tlarsCpp", (DL_FUNC) &_rcpp_module_boot_tlarsCpp, 0},
+    {"_rcpp_module_boot_tlars_cpp", (DL_FUNC) &_rcpp_module_boot_tlars_cpp, 0},
     {NULL, NULL, 0}
 };
 
