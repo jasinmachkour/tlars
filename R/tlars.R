@@ -8,11 +8,6 @@
 #' the entire solution path is computed.
 #' @param info If TRUE information about the T-LARS step are printed.
 #'
-#' @useDynLib tlars, .registration = TRUE
-#' @import methods
-#' @import Rcpp
-#' @import RcppArmadillo
-#'
 #' @importFrom stats rnorm
 #'
 #' @export
