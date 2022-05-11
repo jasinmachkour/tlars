@@ -2,30 +2,33 @@
 % Please edit documentation in R/tlars.R
 \name{tlars}
 \alias{tlars}
-\title{Executes the Terminated-LARS (tlars) algorithm}
+\title{Executes the Terminated-LARS (T-LARS) algorithm}
 \usage{
-tlars(obj, T_stop = 1, earlyStop = TRUE)
+tlars(model, T_stop = 1, early_stop = TRUE, info = TRUE)
 }
 \arguments{
-\item{obj}{Object of the class tlarsCpp.}
+\item{model}{Object of the class tlars_cpp.}
 
 \item{T_stop}{Number of included knockoffs after which the random experiments (i.e., forward selection processes) are stopped.}
 
-\item{earlyStop}{If TRUE, then the forward selection process is stopped after T_stop knockoffs have been included. Otherwise the entire solution path is computed.}
+\item{early_stop}{Logical. If TRUE, then the forward selection process is stopped after T_stop knockoffs have been included. Otherwise
+the entire solution path is computed.}
+
+\item{info}{If TRUE information about the T-LARS step are printed.}
 }
 \description{
-Modifies the generic tlarsCpp object by executing the tlars algorithm and including the results in the tlarsCpp object.
+Modifies the generic tlars_cpp model by executing the T-LARS algorithm and including the results in the tlars_cpp model.
 }
 \examples{
 data('Gauss_data')
 X = Gauss_data$X
-y = c(Gauss_data$y)
+y = drop(Gauss_data$y)
 p = ncol(X)
 n = nrow(X)
-knock = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-XK = cbind(X, knock)
-larsObj = newObj_tlars(X = XK, y = y, L_val = p)
-tlars(obj = larsObj, T_stop = 3, earlyStop = TRUE)
-beta = larsObj$getLastBeta()
+knocks = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+XK = cbind(X, knocks)
+mod_tlars = tlars_model(X = XK, y = y, num_knocks = ncol(knocks))
+tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
+beta = mod_tlars$get_beta()
 beta
 }
