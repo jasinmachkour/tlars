@@ -249,7 +249,7 @@ for(t in seq_along(T_vec)){
   }
 }
 
-# Compute estimates of FDP and TPP by averaging FDP and TPP over MC Monte Carlo runs
+# Compute estimates of FDR and TPR by averaging FDP and TPP over MC Monte Carlo runs
 FDR = colMeans(FDP)
 TPR = colMeans(TPP)
 ```
