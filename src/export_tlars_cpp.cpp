@@ -36,7 +36,7 @@ RCPP_MODULE(tlars_cpp){
     .field("verbose", &tlars_cpp::verbose, "Logical. If TRUE progress in computations is shown.")
     .field("intercept", &tlars_cpp::intercept, "Logical. If TRUE an intercept is included.")
     .field("standardize", &tlars_cpp::standardize, "Logical. If TRUE the predictors are standardized and the response is centered.")
-    .field("num_knocks", &tlars_cpp::num_dummies, "Number of dummies that are appended to the predictor matrix.")
-    .field("type", &tlars_cpp::type, " Type of used algorithm (currently possible choices: 'lar' or 'lasso').")
+    .field("num_dummies", &tlars_cpp::num_dummies, "Number of dummies that are appended to the predictor matrix.")
+    .field("type", &tlars_cpp::type, "Type of used algorithm (currently possible choices: 'lar' or 'lasso').")
     ;
 }
