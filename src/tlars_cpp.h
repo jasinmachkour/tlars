@@ -127,6 +127,7 @@ private:
     double machine_prec;
     std::list<int> actions;
     std::list<int> df;
+    Rcpp::List lars_state;
 };
 
 #endif /* tlars_cpp_h */
