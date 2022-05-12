@@ -4,20 +4,20 @@
 #' (see [tlars_model] for details) if the object is created with type = "lar"
 #' (no plot for type = "lasso").
 #'
-#' @param tlars_model Object of the class tlars_cpp. See [tlars_model] for details.
+#' @param x Object of the class tlars_cpp. See [tlars_model] for details.
+#' @param xlab Label of the x-axis.
+#' @param ylab Label of the y-axis.
 #' @param include_dummies Logical. If TRUE solution paths of dummies are added to the plot.
 #' @param actions Logical. If TRUE axis above plot with indices of added variables
 #' (Dummies represented by 'D') along the solution path is added.
 #' @param col_selected Color of lines corresponding to selected variables.
 #' @param col_dummies Color of lines corresponding to included dummies.
-#' @param xlab Label of the x-axis.
-#' @param ylab Label of the y-axis.
 #' @param lty_selected Line type of lines corresponding to selected variables.
 #' See [par] for more details.
 #' @param lty_dummies Line type of lines corresponding to included dummies.
 #' See [par] for more details.
 #' @param legend_pos Legend position. See [xy.coords] for more details.
-#' @param ... Other parameter that control the appearance of the plot. See [plot] and [par].
+#' @param ... Ignored. Only added to keep structure of generic [plot] function.
 #'
 #' @importFrom stats rnorm
 #' @importFrom graphics matplot axis abline mtext legend
@@ -37,20 +37,20 @@
 #' mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
 #' tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 #' plot(mod_tlars)
-plot.Rcpp_tlars_cpp = function(tlars_model,
+plot.Rcpp_tlars_cpp = function(x,
+                               xlab = '# Included dummies',
+                               ylab = 'Coefficients',
                                include_dummies = TRUE,
                                actions = TRUE,
                                col_selected = "black",
                                col_dummies = "red",
-                               xlab = '# Included dummies',
-                               ylab = 'Coefficients',
                                lty_selected = 'solid',
                                lty_dummies = 'dashed',
                                legend_pos = 'topleft',
                                ...) {
   # Checking whether LARS or Lasso are used.
   # Plot is only generated for LARS!
-  method_type = tlars_model$type
+  method_type = x$type
   stopifnot(
     "Plot is only generated for LARS, not Lasso!
             Set type = 'lar' when creating an object of class tlars_cpp!" =
@@ -58,10 +58,10 @@ plot.Rcpp_tlars_cpp = function(tlars_model,
   )
 
   # Retrieve data to be plotted from C++ object of class tlars_cpp
-  T_stop = tlars_model$get_num_active_dummies()
-  num_dummies = tlars_model$get_num_dummies()
-  var_select_path = tlars_model$get_actions()
-  beta_path = do.call(rbind, tlars_model$get_beta_path())
+  T_stop = x$get_num_active_dummies()
+  num_dummies = x$get_num_dummies()
+  var_select_path = x$get_actions()
+  beta_path = do.call(rbind, x$get_beta_path())
 
   # Number of original variables (without dummies)
   p = ncol(beta_path) - num_dummies
@@ -76,12 +76,12 @@ plot.Rcpp_tlars_cpp = function(tlars_model,
     xlab = xlab,
     ylab = ylab,
     lty = lty_selected,
-    xaxt = 'n',
-    ...
+    xaxt = 'n'
   )
   graphics::axis(side = 1,
                  at = dummies_path,
-                 labels = dummies_path_labels)
+                 labels = dummies_path_labels,
+                 ...)
   graphics::abline(
     v = dummies_path,
     col = col_dummies,
@@ -94,12 +94,11 @@ plot.Rcpp_tlars_cpp = function(tlars_model,
     graphics::matlines(beta_path[, seq(p + 1, p + num_dummies)],
                        col = col_dummies,
                        type = 'l',
-                       lty = lty_dummies,
-                       ...)
+                       lty = lty_dummies)
   }
 
   # Add axis above plot to indicate index of added or removed variables
-  # (added and removed dummies indicated with 'D' and "-D", respectively)
+  # (added dummies are indicated with 'D')
   if (actions) {
     var_select_path_positions = seq(2, length(var_select_path) + 1)
     var_select_path_labels = var_select_path
@@ -112,12 +111,14 @@ plot.Rcpp_tlars_cpp = function(tlars_model,
       side = 3,
       line = 3
     )
-    graphics::abline(v = var_select_path_positions, col = "gray", lty = 6)
+    graphics::abline(v = var_select_path_positions,
+                     col = "gray",
+                     lty = 6)
   }
 
   # Add legend to plot if active variables and dummies are plotted
   if (include_dummies && !is.null(legend_pos)) {
-    legend(
+    graphics::legend(
       legend_pos,
       legend = c('Original variables' , 'Dummies'),
       col = c(col_selected, col_dummies),

@@ -4,12 +4,12 @@
 \alias{print.Rcpp_tlars_cpp}
 \title{Prints a summary of the results stored in a C++ object of class tlars_cpp.}
 \usage{
-\method{print}{Rcpp_tlars_cpp}(tlars_model, ...)
+\method{print}{Rcpp_tlars_cpp}(x, ...)
 }
 \arguments{
-\item{tlars_model}{Object of the class tlars_cpp. See \link{tlars_model} for details.}
+\item{x}{Object of the class tlars_cpp. See \link{tlars_model} for details.}
 
-\item{...}{Additional parameters to print. See \link{print} for details.}
+\item{...}{Ignored. Only added to keep structure of generic \link{print} function.}
 }
 \description{
 Prints a summary of the results stored in a C++ object of class tlars_cpp

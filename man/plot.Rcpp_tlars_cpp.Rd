@@ -5,13 +5,13 @@
 \title{Plots the T-LARS solution path}
 \usage{
 \method{plot}{Rcpp_tlars_cpp}(
-  tlars_model,
+  x,
+  xlab = "# Included dummies",
+  ylab = "Coefficients",
   include_dummies = TRUE,
   actions = TRUE,
   col_selected = "black",
   col_dummies = "red",
-  xlab = "# Included dummies",
-  ylab = "Coefficients",
   lty_selected = "solid",
   lty_dummies = "dashed",
   legend_pos = "topleft",
@@ -19,7 +19,11 @@
 )
 }
 \arguments{
-\item{tlars_model}{Object of the class tlars_cpp. See \link{tlars_model} for details.}
+\item{x}{Object of the class tlars_cpp. See \link{tlars_model} for details.}
+
+\item{xlab}{Label of the x-axis.}
+
+\item{ylab}{Label of the y-axis.}
 
 \item{include_dummies}{Logical. If TRUE solution paths of dummies are added to the plot.}
 
@@ -30,10 +34,6 @@
 
 \item{col_dummies}{Color of lines corresponding to included dummies.}
 
-\item{xlab}{Label of the x-axis.}
-
-\item{ylab}{Label of the y-axis.}
-
 \item{lty_selected}{Line type of lines corresponding to selected variables.
 See \link{par} for more details.}
 
@@ -42,7 +42,7 @@ See \link{par} for more details.}
 
 \item{legend_pos}{Legend position. See \link{xy.coords} for more details.}
 
-\item{...}{Other parameter that control the appearance of the plot. See \link{plot} and \link{par}.}
+\item{...}{Ignored. Only added to keep structure of generic \link{plot} function.}
 }
 \description{
 Plots the T-LARS solution path stored in C++ objects of class tlars_cpp
