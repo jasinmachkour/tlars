@@ -17,14 +17,14 @@ Prints a summary of the results stored in a C++ object of class tlars_cpp
 and number of included dummies.
 }
 \examples{
-data('Gauss_data')
-X = Gauss_data$X
-y = drop(Gauss_data$y)
-p = ncol(X)
-n = nrow(X)
-dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-X_D = cbind(X, dummies)
-mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
+data("Gauss_data")
+X <- Gauss_data$X
+y <- drop(Gauss_data$y)
+p <- ncol(X)
+n <- nrow(X)
+dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+XD <- cbind(X, dummies)
+mod_tlars <- tlars_model(X = XD, y = y, num_dummies = ncol(dummies))
 tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 print(mod_tlars)
 }

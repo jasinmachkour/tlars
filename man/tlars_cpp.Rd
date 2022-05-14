@@ -4,7 +4,7 @@
 \alias{tlars_cpp}
 \title{Exposes the C++ class tlars_cpp to R}
 \arguments{
-\item{X}{Real valued Predictor matrix.}
+\item{X}{Real valued predictor matrix.}
 
 \item{y}{Response vector.}
 
@@ -71,14 +71,14 @@ Type "tlars_cpp" in the console to see the constructors, variables, and methods 
 }}
 
 \examples{
-data('Gauss_data')
-X = Gauss_data$X
-y = drop(Gauss_data$y)
-p = ncol(X)
-n = nrow(X)
-dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-X_D = cbind(X, dummies)
-mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
+data("Gauss_data")
+X <- Gauss_data$X
+y <- drop(Gauss_data$y)
+p <- ncol(X)
+n <- nrow(X)
+dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+XD <- cbind(X, dummies)
+mod_tlars <- tlars_model(X = XD, y = y, num_dummies = ncol(dummies))
 tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 
 mod_tlars$get_beta()

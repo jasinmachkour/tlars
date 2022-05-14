@@ -46,13 +46,13 @@ Object of the class tlars_cpp.
 Creates an object of the class tlars_cpp.
 }
 \examples{
-data('Gauss_data')
-X = Gauss_data$X
-y = drop(Gauss_data$y)
-p = ncol(X)
-n = nrow(X)
-dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-X_D = cbind(X, dummies)
-mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
+data("Gauss_data")
+X <- Gauss_data$X
+y <- drop(Gauss_data$y)
+p <- ncol(X)
+n <- nrow(X)
+dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+XD <- cbind(X, dummies)
+mod_tlars <- tlars_model(X = XD, y = y, num_dummies = ncol(dummies))
 mod_tlars
 }

@@ -31,7 +31,7 @@ RCPP_MODULE(tlars_cpp){
     .method("get_all", &tlars_cpp::get_all, "Returns all class variables: This list can be used as an input to the constructor to re-create an object of class tlars_cpp.")
 
     // Input variables
-    .field("X", &tlars_cpp::X, "Real valued Predictor matrix.")
+    .field("X", &tlars_cpp::X, "Real valued predictor matrix.")
     .field("y", &tlars_cpp::y, "Response vector.")
     .field("verbose", &tlars_cpp::verbose, "Logical. If TRUE progress in computations is shown.")
     .field("intercept", &tlars_cpp::intercept, "Logical. If TRUE an intercept is included.")

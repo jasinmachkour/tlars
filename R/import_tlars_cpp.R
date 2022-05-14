@@ -5,7 +5,7 @@
 #' @description Type "tlars_cpp" in the console to see the constructors, variables, and methods of the class tlars_cpp.
 #'
 #' @field Constructor: new - Creates a new object of the class tlars_cpp.
-#' @param X Real valued Predictor matrix.
+#' @param X Real valued predictor matrix.
 #' @param y Response vector.
 #' @param verbose Logical. If TRUE progress in computations is shown.
 #' @param intercept Logical. If TRUE an intercept is included.
@@ -46,14 +46,14 @@
 #' @export tlars_cpp
 #'
 #' @examples
-#' data('Gauss_data')
-#' X = Gauss_data$X
-#' y = drop(Gauss_data$y)
-#' p = ncol(X)
-#' n = nrow(X)
-#' dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-#' X_D = cbind(X, dummies)
-#' mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
+#' data("Gauss_data")
+#' X <- Gauss_data$X
+#' y <- drop(Gauss_data$y)
+#' p <- ncol(X)
+#' n <- nrow(X)
+#' dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+#' XD <- cbind(X, dummies)
+#' mod_tlars <- tlars_model(X = XD, y = y, num_dummies = ncol(dummies))
 #' tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 #'
 #' mod_tlars$get_beta()

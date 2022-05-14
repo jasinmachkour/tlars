@@ -15,14 +15,16 @@
 #' @examples
 #' # Generated as follows:
 #' set.seed(789)
-#' n = 50
-#' p = 100
-#' X = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-#' beta = c(rep(5, times = 3), rep(0, times = 97))
-#' supp = beta > 0
-#' y = X %*% beta + stats::rnorm(n)
-#' Gauss_data = list(X = X,
-#'                   y = y,
-#'                   beta = beta,
-#'                   supp = supp)
+#' n <- 50
+#' p <- 100
+#' X <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+#' beta <- c(rep(5, times = 3), rep(0, times = 97))
+#' supp <- beta > 0
+#' y <- X %*% beta + stats::rnorm(n)
+#' Gauss_data <- list(
+#'   X = X,
+#'   y = y,
+#'   beta = beta,
+#'   supp = supp
+#' )
 "Gauss_data"

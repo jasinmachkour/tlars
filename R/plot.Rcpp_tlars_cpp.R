@@ -27,30 +27,30 @@
 #' @seealso [tlars_model], [plot], [par], and [xy.coords].
 #'
 #' @examples
-#' data('Gauss_data')
-#' X = Gauss_data$X
-#' y = drop(Gauss_data$y)
-#' p = ncol(X)
-#' n = nrow(X)
-#' dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-#' X_D = cbind(X, dummies)
-#' mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
+#' data("Gauss_data")
+#' X <- Gauss_data$X
+#' y <- drop(Gauss_data$y)
+#' p <- ncol(X)
+#' n <- nrow(X)
+#' dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+#' XD <- cbind(X, dummies)
+#' mod_tlars <- tlars_model(X = XD, y = y, num_dummies = ncol(dummies))
 #' tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 #' plot(mod_tlars)
-plot.Rcpp_tlars_cpp = function(x,
-                               xlab = '# Included dummies',
-                               ylab = 'Coefficients',
-                               include_dummies = TRUE,
-                               actions = TRUE,
-                               col_selected = "black",
-                               col_dummies = "red",
-                               lty_selected = 'solid',
-                               lty_dummies = 'dashed',
-                               legend_pos = 'topleft',
-                               ...) {
+plot.Rcpp_tlars_cpp <- function(x,
+                                xlab = "# Included dummies",
+                                ylab = "Coefficients",
+                                include_dummies = TRUE,
+                                actions = TRUE,
+                                col_selected = "black",
+                                col_dummies = "red",
+                                lty_selected = "solid",
+                                lty_dummies = "dashed",
+                                legend_pos = "topleft",
+                                ...) {
   # Checking whether LARS or Lasso are used.
   # Plot is only generated for LARS!
-  method_type = x$type
+  method_type <- x$type
   stopifnot(
     "Plot is only generated for LARS, not Lasso!
             Set type = 'lar' when creating an object of class tlars_cpp!" =
@@ -58,30 +58,32 @@ plot.Rcpp_tlars_cpp = function(x,
   )
 
   # Retrieve data to be plotted from C++ object of class tlars_cpp
-  T_stop = x$get_num_active_dummies()
-  num_dummies = x$get_num_dummies()
-  var_select_path = x$get_actions()
-  beta_path = do.call(rbind, x$get_beta_path())
+  T_stop <- x$get_num_active_dummies()
+  num_dummies <- x$get_num_dummies()
+  var_select_path <- x$get_actions()
+  beta_path <- do.call(rbind, x$get_beta_path())
 
   # Number of original variables (without dummies)
-  p = ncol(beta_path) - num_dummies
+  p <- ncol(beta_path) - num_dummies
 
   # Generate solution path plot of active variables
-  dummies_path = which(var_select_path > p) + 1
-  dummies_path_labels = seq(T_stop)
+  dummies_path <- which(var_select_path > p) + 1
+  dummies_path_labels <- seq(T_stop)
   graphics::matplot(
     beta_path[, seq(1, p)],
     col = col_selected,
-    type = 'l',
+    type = "l",
     xlab = xlab,
     ylab = ylab,
     lty = lty_selected,
-    xaxt = 'n'
+    xaxt = "n"
   )
-  graphics::axis(side = 1,
-                 at = dummies_path,
-                 labels = dummies_path_labels,
-                 ...)
+  graphics::axis(
+    side = 1,
+    at = dummies_path,
+    labels = dummies_path_labels,
+    ...
+  )
   graphics::abline(
     v = dummies_path,
     col = col_dummies,
@@ -92,35 +94,40 @@ plot.Rcpp_tlars_cpp = function(x,
   # Add dummies solution path to plot
   if (include_dummies) {
     graphics::matlines(beta_path[, seq(p + 1, p + num_dummies)],
-                       col = col_dummies,
-                       type = 'l',
-                       lty = lty_dummies)
+      col = col_dummies,
+      type = "l",
+      lty = lty_dummies
+    )
   }
 
   # Add axis above plot to indicate index of added or removed variables
   # (added dummies are indicated with 'D')
   if (actions) {
-    var_select_path_positions = seq(2, length(var_select_path) + 1)
-    var_select_path_labels = var_select_path
-    var_select_path_labels[var_select_path_labels > p] = 'D'
-    graphics::axis(side = 3,
-                   at = var_select_path_positions,
-                   labels = var_select_path_labels)
+    var_select_path_positions <- seq(2, length(var_select_path) + 1)
+    var_select_path_labels <- var_select_path
+    var_select_path_labels[var_select_path_labels > p] <- "D"
+    graphics::axis(
+      side = 3,
+      at = var_select_path_positions,
+      labels = var_select_path_labels
+    )
     graphics::mtext(
       "Index of selected variables (D indicates an included dummy)",
       side = 3,
       line = 3
     )
-    graphics::abline(v = var_select_path_positions,
-                     col = "gray",
-                     lty = 6)
+    graphics::abline(
+      v = var_select_path_positions,
+      col = "gray",
+      lty = 6
+    )
   }
 
   # Add legend to plot if active variables and dummies are plotted
   if (include_dummies && !is.null(legend_pos)) {
     graphics::legend(
       legend_pos,
-      legend = c('Original variables' , 'Dummies'),
+      legend = c("Original variables", "Dummies"),
       col = c(col_selected, col_dummies),
       lty = c(lty_selected, lty_dummies),
       lwd = rep(1, times = 2)

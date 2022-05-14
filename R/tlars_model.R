@@ -23,26 +23,26 @@
 #' @export
 #'
 #' @examples
-#' data('Gauss_data')
-#' X = Gauss_data$X
-#' y = drop(Gauss_data$y)
-#' p = ncol(X)
-#' n = nrow(X)
-#' dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-#' X_D = cbind(X, dummies)
-#' mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
+#' data("Gauss_data")
+#' X <- Gauss_data$X
+#' y <- drop(Gauss_data$y)
+#' p <- ncol(X)
+#' n <- nrow(X)
+#' dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+#' XD <- cbind(X, dummies)
+#' mod_tlars <- tlars_model(X = XD, y = y, num_dummies = ncol(dummies))
 #' mod_tlars
-tlars_model = function(lars_state,
-                       X,
-                       y,
-                       num_dummies,
-                       verbose = FALSE,
-                       intercept = FALSE,
-                       standardize = TRUE,
-                       type = 'lar',
-                       info = TRUE) {
+tlars_model <- function(lars_state,
+                        X,
+                        y,
+                        num_dummies,
+                        verbose = FALSE,
+                        intercept = FALSE,
+                        standardize = TRUE,
+                        type = "lar",
+                        info = TRUE) {
   if (missing(lars_state)) {
-    mod_tlars = new(
+    mod_tlars <- new(
       tlars::tlars_cpp,
       X = X,
       y = drop(y),
@@ -52,17 +52,18 @@ tlars_model = function(lars_state,
       num_dummies = num_dummies,
       type = type
     )
-  } else{
-    mod_tlars = new(tlars::tlars_cpp,
-                    lars_state = lars_state)
+  } else {
+    mod_tlars <- new(tlars::tlars_cpp,
+      lars_state = lars_state
+    )
   }
 
   if (info) {
     # Get name of predictor matrix passed to function argument "X"
-    pred_mat_name = deparse(substitute(X))
+    pred_mat_name <- deparse(substitute(X))
 
     # Print information about the generated T-LARS model
-    mes = paste0(
+    mes <- paste0(
       "Created an object of class tlars_cpp... \n",
       "\t\t The first ",
       ncol(X) - num_dummies,

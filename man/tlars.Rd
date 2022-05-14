@@ -20,15 +20,15 @@ the entire solution path is computed.}
 Modifies the generic tlars_cpp model by executing the T-LARS algorithm and including the results in the tlars_cpp model.
 }
 \examples{
-data('Gauss_data')
-X = Gauss_data$X
-y = drop(Gauss_data$y)
-p = ncol(X)
-n = nrow(X)
-dummies = matrix(stats::rnorm(n * p), nrow = n, ncol = p)
-X_D = cbind(X, dummies)
-mod_tlars = tlars_model(X = X_D, y = y, num_dummies = ncol(dummies))
+data("Gauss_data")
+X <- Gauss_data$X
+y <- drop(Gauss_data$y)
+p <- ncol(X)
+n <- nrow(X)
+dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+XD <- cbind(X, dummies)
+mod_tlars <- tlars_model(X = XD, y = y, num_dummies = ncol(dummies))
 tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
-beta = mod_tlars$get_beta()
+beta <- mod_tlars$get_beta()
 beta
 }
