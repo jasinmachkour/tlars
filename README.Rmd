@@ -67,7 +67,7 @@ n <- 75 # Number of observations
 p <- 150 # Number of variables
 num_act <- 3 # Number of true active variables
 beta <- c(rep(1, times = num_act), rep(0, times = p - num_act)) # Coefficient vector
-actives <- which(beta > 0) # Indices of true active variables
+true_actives <- which(beta > 0) # Indices of true active variables
 num_dummies <- p # Number of dummy predictors (or dummies)
 
 # Generate Gaussian data

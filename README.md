@@ -63,7 +63,7 @@ n <- 75 # Number of observations
 p <- 150 # Number of variables
 num_act <- 3 # Number of true active variables
 beta <- c(rep(1, times = num_act), rep(0, times = p - num_act)) # Coefficient vector
-actives <- which(beta > 0) # Indices of true active variables
+true_actives <- which(beta > 0) # Indices of true active variables
 num_dummies <- p # Number of dummy predictors (or dummies)
 
 # Generate Gaussian data
@@ -87,8 +87,8 @@ XD <- cbind(X, dummies)
 ```r
 mod_tlars <- tlars_model(X = XD, y = y, num_dummies = num_dummies)
 #> Created an object of class tlars_cpp... 
-#> 		 The first 150 predictors in 'XD' are the original predictors and 
-#> 		 the last 150 predictors are dummies
+#> 		 The first p = 150 predictors in 'XD' are the original predictors and 
+#> 		 the last num_dummies = 150 predictors are dummies
 ```
 
 4. **Finally**, we perform three T-LARS-steps on "mod_tlars", i.e., the T-LARS algorithm is run until **T_stop = 3** dummies have entered the solution path and stops there. For comparison, we also compute the whole solution path by setting early_stop = FALSE:
@@ -118,10 +118,11 @@ plot(mod_tlars) # Plot the terminated solution path
 
 ```r
 tlars(model = mod_tlars, early_stop = FALSE) # Compute the whole solution path
+#> 'T_stop' is ignored. Computing the entire solution path...
 #> Executing T-LARS-step by reference...
 #> 		 Finished T-LARS-step(s). No early stopping! 
 #> 			 - The results are stored in the C++ object 'mod_tlars'.
-#> 			 - Time elaped: 0.006 sec.
+#> 			 - Time elaped: 0.007 sec.
 print(mod_tlars) # Print information about the results
 #> 'mod_tlars' is a C++ object of class 'tlars_cpp' ... 
 #> 	 - Number of dummies: 150.
