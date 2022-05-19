@@ -13,6 +13,7 @@ output:
     toc: yes
     toc_depth: 1
     toc_float: yes
+    css: vignette_styles.css
   prettydoc::html_pretty:
     theme: tactile
     highlight: vignette
@@ -22,7 +23,7 @@ toc-title: "Table of Contents"
 csl: the-annals-of-statistics.csl # https://www.zotero.org/styles
 bibliography: refs.bib
 nocite: |
-  @machkour2021terminating
+  @machkour2021terminating, @efron2004least
 vignette: |
   %\VignetteKeyword{T-LARS, T-Rex selector, false discovery rate (FDR) control, high-dimensional variable selection, martingale theory, genome-wide association studies}
   %\VignetteEncoding{UTF-8}
@@ -49,7 +50,9 @@ options(width = 80)
 # Motivation
 This package implements the **Terminating-LARS (T-LARS)** algorithm, i.e., it computes the solution path of the T-LARS algorithm. The T-LARS algorithm appends dummy predictors to the original predictor matrix and terminates the forward-selection process after a pre-defined number of dummy variables has been selected.
 
-The T-LARS algorithm is a major building block of the **T-Rex Selector** ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)). The T-Rex Selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of each random experiment to obtain a final set of selected variables, while provably controlling the FDR at the user-defined target level and maximizing the number of selected variables.
+In contrast, the original LARS algorithm computes the entire solution path without stopping early. However, in certain applications there exists very little or no useful information in later steps of the solution path and, therefore, stopping early allows for huge improvements in terms of computation time and no loss in the variable selection accuracy. Especially the **T-Rex Selector** ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)) requires terminating multiple solution paths early after a pre-defined number of dummy variables has been included.
+
+The T-LARS algorithm is a major building block of the **T-Rex Selector**. The T-Rex Selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of each random experiment to obtain a final set of selected variables, while provably controlling the FDR at the user-defined target level and maximizing the number of selected variables.
 
 In the following, we want to show you how to use the package and give you an idea of why terminating the solution path early is a reasonable approach in high-dimensional and sparse variable selection: In many applications, most active variables enter the solution path early!
 
@@ -97,11 +100,11 @@ In the following, we illustrate the basic usage of the tlars package to perform 
 library(tlars)
 
 # Setup
-n <- 75 # Number of observations
-p <- 150 # Number of variables
-num_act <- 3 # Number of true active variables
+n <- 150 # Number of observations
+p <- 300 # Number of variables
+num_act <- 5 # Number of true active variables
 beta <- c(rep(1, times = num_act), rep(0, times = p - num_act)) # Coefficient vector
-actives <- which(beta > 0) # Indices of true active variables
+true_actives <- which(beta > 0) # Indices of true active variables
 num_dummies <- p # Number of dummy predictors (or dummies)
 
 # Generate Gaussian data
@@ -152,13 +155,13 @@ plot(mod_tlars)
 beta_hat <- mod_tlars$get_beta()
 
 selected_var <- which(abs(beta_hat[seq(p)]) > eps) # Indices of selected original variables
-selected_dummy <- p + which(abs(beta_hat[seq(p + 1, ncol(XD))]) > eps) # Indices of selected dummy variables
+selected_dummies <- p + which(abs(beta_hat[seq(p + 1, ncol(XD))]) > eps) # Indices of selected dummy variables
 
-FDP <- length(setdiff(selected_var, actives)) / max(1, length(selected_var)) # False discovery proportion (FDP)
-TPP <- length(intersect(selected_var, actives)) / max(1, length(actives)) # True positive proportion (TPP)
+FDP <- length(setdiff(selected_var, true_actives)) / max(1, length(selected_var)) # False discovery proportion (FDP)
+TPP <- length(intersect(selected_var, true_actives)) / max(1, length(true_actives)) # True positive proportion (TPP)
 
 selected_var
-selected_dummy
+selected_dummies
 FDP
 TPP
 ```
@@ -177,13 +180,13 @@ plot(mod_tlars)
 beta_hat <- mod_tlars$get_beta()
 
 selected_var <- which(abs(beta_hat[seq(p)]) > eps) # Indices of selected original variables
-selected_dummy <- p + which(abs(beta_hat[seq(p + 1, ncol(XD))]) > eps) # Indices of selected dummy variables
+selected_dummies <- p + which(abs(beta_hat[seq(p + 1, ncol(XD))]) > eps) # Indices of selected dummy variables
 
-FDP <- length(setdiff(selected_var, actives)) / max(1, length(selected_var)) # False discovery proportion (FDP)
-TPP <- length(intersect(selected_var, actives)) / max(1, length(actives)) # True positive proportion (TPP)
+FDP <- length(setdiff(selected_var, true_actives)) / max(1, length(selected_var)) # False discovery proportion (FDP)
+TPP <- length(intersect(selected_var, true_actives)) / max(1, length(true_actives)) # True positive proportion (TPP)
 
 selected_var
-selected_dummy
+selected_dummies
 FDP
 TPP
 ```
@@ -213,9 +216,12 @@ We conduct Monte Carlo simulations and plot the resulting averaged FDP and TPP o
 # Setup
 n <- 100 # number of observations
 p <- 300 # number of variables
+
+# Parameters
 num_act <- 10 # number of true active variables
-beta <- c(rep(3, times = num_act), rep(0, times = p - num_act)) # coefficient vector
-actives <- which(beta > 0) # indices of true active variables
+beta <- rep(0, times = p) # coefficient vector (all zeros first)
+beta[sample(seq(p), size = num_act, replace = FALSE)] <- 3 # coefficient vector (active variables with non-zero coefficients)
+true_actives <- which(beta > 0) # indices of true active variables
 num_dummies <- p # number of dummies
 T_vec <- c(1, 2, 5, 10, 20, 50, 100) # stopping points, i.e, number of included dummies before terminating the solution path
 MC <- 500 # number of Monte Carlo runs per stopping point
@@ -250,8 +256,8 @@ for (t in seq_along(T_vec)) {
     selected_var <- which(abs(beta_hat[seq(p)]) > eps)
 
     # Results
-    FDP[mc, t] <- length(setdiff(selected_var, actives)) / max(1, length(selected_var))
-    TPP[mc, t] <- length(intersect(selected_var, actives)) / max(1, length(actives))
+    FDP[mc, t] <- length(setdiff(selected_var, true_actives)) / max(1, length(selected_var))
+    TPP[mc, t] <- length(intersect(selected_var, true_actives)) / max(1, length(true_actives))
   }
 }
 
@@ -260,25 +266,57 @@ FDR <- colMeans(FDP)
 TPR <- colMeans(TPP)
 ```
 
-```{r FDR_and_TPR, echo=FALSE, fig.align='center', message=FALSE, fig.width = 9, fig.height = 5, out.width = "90%"}
+```{r FDR_and_TPR, echo=FALSE, fig.align='center', message=FALSE, fig.width = 10, fig.height = 5, out.width = "90%"}
 # Plot results
-par(mfrow = c(1, 2)) # 1 x 2 plot-grid
+library(ggplot2)
+library(patchwork)
 
-# FDP vs. T
-plot(T_vec, FDR, type = "b", xlab = "T", xlim = c(0, 100), ylim = c(0, 1), lwd = 1)
-grid()
+plot_data = data.frame(T_vec = T_vec,
+                       FDR = 100 * FDR,
+                       TPR = 100 * TPR) # data frame containing data to be plotted (FDR and TPR in %)
 
-# TPP vs. T
-plot(T_vec, TPR, type = "b", xlab = "T", xlim = c(0, 100), ylim = c(0, 1), lwd = 1)
-grid()
+# FDR vs. T
+FDR_vs_T = 
+  ggplot(plot_data, aes(x = T_vec, y = FDR)) +
+    labs(x = "T",
+         y = "FDR") +
+    scale_x_continuous(breaks = T_vec[-2], minor_breaks = c(), limits = c(T_vec[1], T_vec[length(T_vec)])) +
+    scale_y_continuous(breaks = seq(0, 100, by = 10), minor_breaks = c(), limits = c(0, 100)) +
+    geom_line(size = 1.5, colour = "#336C68") +
+    geom_point(size = 2.5, colour = "#336C68") +
+    theme_bw(base_size = 16) +
+    theme(panel.background = element_rect(fill = "white", color = "black", size = 1)) +
+    coord_fixed(ratio =  0.85 * T_vec[length(T_vec)] / (100 - 0))
 
-par(mfrow = c(1, 1)) # reset plot-grid
+# TPR vs. T
+TPR_vs_T = 
+  ggplot(plot_data, aes(x = T_vec, y = TPR)) +
+    labs(x = "T",
+         y = "TPR") +
+    scale_x_continuous(breaks = T_vec[-2], minor_breaks = c(), limits = c(T_vec[1], T_vec[length(T_vec)])) +
+    scale_y_continuous(breaks = seq(0, 100, by = 10), minor_breaks = c(), limits = c(0, 100)) +
+    geom_line(size = 1.5, colour = "#336C68") +
+    geom_point(size = 2.5, colour = "#336C68") +
+    theme_bw(base_size = 16) +
+    theme(panel.background = element_rect(fill = "white", color = "black", size = 1)) +
+    coord_fixed(ratio =  0.85 * T_vec[length(T_vec)] / (100 - 0))
 
-# TPP vs. FDP
-plot(FDR, TPR, type = "b", ylim = c(0, 1), lwd = 1)
-grid()
+FDR_vs_T + TPR_vs_T
+
+# TPR vs. FDR
+TPR_vs_FDR = 
+  ggplot(plot_data, aes(x = FDR, y = TPR)) +
+    labs(x = "FDR",
+         y = "TPR") +
+    geom_line(size = 1.5, colour = "#336C68") +
+    geom_point(size = 2.5, colour = "#336C68") +
+    theme_bw(base_size = 16) +
+    theme(panel.background = element_rect(fill = "white", color = "black", size = 1))
+
+TPR_vs_FDR
 ```
 
+We observe that with growing number of included dummies $T$ the FDR and TPR increase. Moreover, we see that there seems to be a trade-off between FDR and TPR. For more details and discussions on these observations, we refer the interested reader to [@machkour2021terminating].
 
 # Outlook
 The T-LARS algorithm is a major building block of the T-Rex Selector ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)). The T-Rex Selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of each random experiment to obtain a final set of selected variables, while provably controlling the FDR at the user-defined target level and maximizing the number of selected variables. Check it out if you need a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings!
