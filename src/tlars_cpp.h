@@ -35,7 +35,7 @@ public:
     arma::vec get_Cp();
     arma::vec get_lambda();
     std::vector<int> get_entry();
-    double get_mu();
+    double get_mean_y();
     arma::vec get_norm_X();
     arma::vec get_mean_X();
     Rcpp::List get_all();

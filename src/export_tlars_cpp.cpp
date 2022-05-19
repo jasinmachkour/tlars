@@ -27,7 +27,7 @@ RCPP_MODULE(tlars_cpp){
     .method("get_entry", &tlars_cpp::get_entry, "Returns the first entry/selection steps of the predictors along the solution path.")
     .method("get_norm_X", &tlars_cpp::get_norm_X, "Returns the L2-norm of the predictors.")
     .method("get_meanX", &tlars_cpp::get_mean_X, "Returns the sample means of the predictors.")
-    .method("get_mu", &tlars_cpp::get_mu, "Returns the sample mean of the response y.")
+    .method("get_mean_y", &tlars_cpp::get_mean_y, "Returns the sample mean of the response y.")
     .method("get_all", &tlars_cpp::get_all, "Returns all class variables: This list can be used as an input to the constructor to re-create an object of class tlars_cpp.")
 
     // Input variables

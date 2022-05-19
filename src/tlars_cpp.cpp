@@ -216,9 +216,9 @@ arma::vec tlars_cpp::get_mean_X()
 
 /** Returns the sample mean of the response y
  *
- * @return mu
+ * @return mean_y
  */
-double tlars_cpp::get_mu()
+double tlars_cpp::get_mean_y()
 {
     return mean_y;
 }
@@ -271,11 +271,11 @@ Rcpp::List tlars_cpp::get_all()
                          Rcpp::Named("gamhat") = gamhat,
                          Rcpp::Named("max_gam1") = max_gam1,
                          Rcpp::Named("max_gam2") = max_gam2,
-                         Rcpp::Named("gamrat") = gamrat
+                         Rcpp::Named("gamrat") = gamrat,
+                         Rcpp::Named("gamhat_list") = gamhat_list
                      );
 
     Rcpp::List l3 =  Rcpp::List::create(
-                         Rcpp::Named("gamhat_list") = gamhat_list,
                          Rcpp::Named("drop") = drop,
                          Rcpp::Named("drop_ind") = drop_ind,
                          Rcpp::Named("sign_vec") = sign_vec,
@@ -294,11 +294,11 @@ Rcpp::List tlars_cpp::get_all()
                          Rcpp::Named("next_beta") = next_beta,
                          Rcpp::Named("old_active_data_decomp") = old_active_data_decomp,
                          Rcpp::Named("active_beta") = active_beta,
-                         Rcpp::Named("gam_lasso") = gam_lasso
+                         Rcpp::Named("gam_lasso") = gam_lasso,
+                         Rcpp::Named("machine_prec") = machine_prec
                      );
 
     Rcpp::List l4 =  Rcpp::List::create(
-                         Rcpp::Named("machine_prec") = machine_prec,
                          Rcpp::Named("actions") = actions,
                          Rcpp::Named("df") = df
                      );
@@ -530,8 +530,8 @@ void tlars_cpp::initialize_values(Rcpp::List lars_state)
     max_gam1 = l2["max_gam1"];
     max_gam2 = l2["max_gam2"];
     gamrat = Rcpp::as<std::list<double>>(l2["gamrat"]);
+    gamhat_list = Rcpp::as<std::list<double>>(l2["gamhat_list"]);
 
-    gamhat_list = Rcpp::as<std::list<double>>(l3["gamhat_list"]);
     drop = l3["drop"];
     drop_ind = Rcpp::as<std::list<int>>(l3["drop_ind"]);
     sign_vec = Rcpp::as<arma::vec>(l3["sign_vec"]);
@@ -551,8 +551,8 @@ void tlars_cpp::initialize_values(Rcpp::List lars_state)
     old_active_data_decomp = Rcpp::as<arma::mat>(l3["old_active_data_decomp"]);
     active_beta = Rcpp::as<arma::vec>(l3["active_beta"]);
     gam_lasso = Rcpp::as<arma::vec>(l3["gam_lasso"]);
+    machine_prec = l3["machine_prec"];
 
-    machine_prec = l4["machine_prec"];
     actions = Rcpp::as<std::list<int>>(l4["actions"]);
     df = Rcpp::as<std::list<int>>(l4["df"]);
 
