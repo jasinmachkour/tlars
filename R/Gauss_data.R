@@ -12,6 +12,8 @@
 #'   \item{supp}{Support vector.}
 #' }
 #'
+#' @importFrom stats rnorm
+#'
 #' @examples
 #' # Generated as follows:
 #' set.seed(789)

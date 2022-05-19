@@ -65,7 +65,7 @@ Type "tlars_cpp" in the console to see the constructors, variables, and methods 
 
 \item{\code{Method:}}{get_mean_X - Returns the sample means of the predictors.}
 
-\item{\code{Method:}}{get_mu - Returns the sample mean of the response y.}
+\item{\code{Method:}}{get_mean_y - Returns the sample mean of the response y.}
 
 \item{\code{Method:}}{get_all - Returns all class variables: This list can be used as an input to the constructor to re-create an object of class tlars_cpp.}
 }}
@@ -96,6 +96,6 @@ mod_tlars$get_beta()
 # mod_tlars$get_entry()
 # mod_tlars$get_norm_X()
 # mod_tlars$get_mean_X()
-# mod_tlars$get_mu()
+# mod_tlars$get_mean_y()
 # mod_tlars$get_all()
 }

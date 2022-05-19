@@ -35,7 +35,7 @@
 #' @field Method: get_entry - Returns the first entry/selection steps of the predictors along the solution path.
 #' @field Method: get_norm_X - Returns the L2-norm of the predictors.
 #' @field Method: get_mean_X - Returns the sample means of the predictors.
-#' @field Method: get_mu - Returns the sample mean of the response y.
+#' @field Method: get_mean_y - Returns the sample mean of the response y.
 #' @field Method: get_all - Returns all class variables: This list can be used as an input to the constructor to re-create an object of class tlars_cpp.
 #'
 #' @useDynLib tlars, .registration = TRUE
@@ -71,6 +71,6 @@
 #' # mod_tlars$get_entry()
 #' # mod_tlars$get_norm_X()
 #' # mod_tlars$get_mean_X()
-#' # mod_tlars$get_mu()
+#' # mod_tlars$get_mean_y()
 #' # mod_tlars$get_all()
 Rcpp::loadModule(module = "tlars_cpp", TRUE)

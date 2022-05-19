@@ -1,10 +1,10 @@
 #' Plots the T-LARS solution path
 #'
 #' Plots the T-LARS solution path stored in C++ objects of class tlars_cpp
-#' (see [tlars_model] for details) if the object is created with type = "lar"
+#' (see [tlars_cpp] for details) if the object is created with type = "lar"
 #' (no plot for type = "lasso").
 #'
-#' @param x Object of the class tlars_cpp. See [tlars_model] for details.
+#' @param x Object of the class tlars_cpp. See [tlars_cpp] for details.
 #' @param xlab Label of the x-axis.
 #' @param ylab Label of the y-axis.
 #' @param include_dummies Logical. If TRUE solution paths of dummies are added to the plot.
@@ -21,10 +21,11 @@
 #'
 #' @importFrom stats rnorm
 #' @importFrom graphics matplot axis abline mtext legend
+#' @import methods
 #'
 #' @export
 #'
-#' @seealso [tlars_model], [plot], [par], and [xy.coords].
+#' @seealso [tlars_cpp], [plot], [par], and [xy.coords].
 #'
 #' @examples
 #' data("Gauss_data")
@@ -48,6 +49,11 @@ plot.Rcpp_tlars_cpp <- function(x,
                                 lty_dummies = "dashed",
                                 legend_pos = "topleft",
                                 ...) {
+  # Error control
+  if (!methods::is(object = x, class2 = tlars::tlars_cpp)) {
+    stop("'x' must be an object of class tlars_cpp.")
+  }
+
   # Checking whether LARS or Lasso are used.
   # Plot is only generated for LARS!
   method_type <- x$type

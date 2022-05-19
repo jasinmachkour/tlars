@@ -1,17 +1,18 @@
 #' Prints a summary of the results stored in a C++ object of class tlars_cpp.
 #'
 #' Prints a summary of the results stored in a C++ object of class tlars_cpp
-#' (see [tlars_model] for details), i.e., selected variables, computation time,
+#' (see [tlars_cpp] for details), i.e., selected variables, computation time,
 #' and number of included dummies.
 #'
-#' @param x Object of the class tlars_cpp. See [tlars_model] for details.
+#' @param x Object of the class tlars_cpp. See [tlars_cpp] for details.
 #' @param ... Ignored. Only added to keep structure of generic [print] function.
 #'
 #' @importFrom stats rnorm
+#' @import methods
 #'
 #' @export
 #'
-#' @seealso [tlars_model].
+#' @seealso [tlars_cpp].
 #'
 #' @examples
 #' data("Gauss_data")
@@ -26,6 +27,12 @@
 #' print(mod_tlars)
 print.Rcpp_tlars_cpp <- function(x,
                                  ...) {
+
+  # Error control
+  if (!methods::is(object = x, class2 = tlars::tlars_cpp)) {
+    stop("'x' must be an object of class tlars_cpp.")
+  }
+
   # Checking whether LARS or Lasso are used.
   # Plot is only generated for LARS!
   method_type <- x$type

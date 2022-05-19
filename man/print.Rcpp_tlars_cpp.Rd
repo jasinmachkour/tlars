@@ -7,13 +7,13 @@
 \method{print}{Rcpp_tlars_cpp}(x, ...)
 }
 \arguments{
-\item{x}{Object of the class tlars_cpp. See \link{tlars_model} for details.}
+\item{x}{Object of the class tlars_cpp. See \link{tlars_cpp} for details.}
 
 \item{...}{Ignored. Only added to keep structure of generic \link{print} function.}
 }
 \description{
 Prints a summary of the results stored in a C++ object of class tlars_cpp
-(see \link{tlars_model} for details), i.e., selected variables, computation time,
+(see \link{tlars_cpp} for details), i.e., selected variables, computation time,
 and number of included dummies.
 }
 \examples{
@@ -29,5 +29,5 @@ tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 print(mod_tlars)
 }
 \seealso{
-\link{tlars_model}.
+\link{tlars_cpp}.
 }

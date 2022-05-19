@@ -9,6 +9,7 @@
 #' @param info If TRUE information about the T-LARS step are printed.
 #'
 #' @importFrom stats rnorm
+#' @import methods
 #'
 #' @export
 #'
@@ -28,6 +29,21 @@ tlars <- function(model,
                   T_stop = 1,
                   early_stop = TRUE,
                   info = TRUE) {
+  # Error control
+  if (!methods::is(object = model, class2 = tlars::tlars_cpp)) {
+    stop("'model' must be an object of class tlars_cpp.")
+  }
+
+  num_dummies <- model$get_num_dummies()
+  if (!(T_stop %in% seq(1, num_dummies))) {
+    stop(paste0("Value of 'T_stop' not valid. 'T_stop' must be an integer from 1 to ", num_dummies, "."))
+  }
+
+  if (!early_stop) {
+    message("'T_stop' is ignored. Computing the entire solution path...")
+  }
+
+  # Execute T-LARS and print information if info = TRUE
   if (info) {
     # Print information about the T-LARS-step
     mes1 <- "Executing T-LARS-step by reference..."

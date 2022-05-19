@@ -19,7 +19,7 @@
 )
 }
 \arguments{
-\item{x}{Object of the class tlars_cpp. See \link{tlars_model} for details.}
+\item{x}{Object of the class tlars_cpp. See \link{tlars_cpp} for details.}
 
 \item{xlab}{Label of the x-axis.}
 
@@ -46,7 +46,7 @@ See \link{par} for more details.}
 }
 \description{
 Plots the T-LARS solution path stored in C++ objects of class tlars_cpp
-(see \link{tlars_model} for details) if the object is created with type = "lar"
+(see \link{tlars_cpp} for details) if the object is created with type = "lar"
 (no plot for type = "lasso").
 }
 \examples{
@@ -62,5 +62,5 @@ tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 plot(mod_tlars)
 }
 \seealso{
-\link{tlars_model}, \link{plot}, \link{par}, and \link{xy.coords}.
+\link{tlars_cpp}, \link{plot}, \link{par}, and \link{xy.coords}.
 }
