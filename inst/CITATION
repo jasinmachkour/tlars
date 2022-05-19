@@ -11,13 +11,13 @@ citEntry(entry = "Manual",
          url          = "https://github.com/jasinmachkour/tlars",
          textVersion  =
            paste("J. Machkour, S. Tien, D. P. Palomar, and M. Muma (2022).",
-                 "tlars: The Terminated-LARS (T-LARS) algorithm for high-dimensional early terminated forward variable selection.",
-                 "R package version 0.0.0.9000.",
-                 "https://github.com/jasinmachkour/tlars")
+                 "tlars: The Terminated-LARS (T-LARS) algorithm for high-dimensional early terminated forward variable
+                 selection.", "R package version 0.0.0.9000.", "https://github.com/jasinmachkour/tlars")
 )
 
 citEntry(entry = "Article",
-         title        = "The Terminating-Knockoff Filter: Fast High-Dimensional Variable Selection with False Discovery Rate Control",
+         title        = "The Terminating-Knockoff Filter: Fast High-Dimensional Variable Selection with False Discovery
+                        Rate Control",
          author       = personList(as.person("Jasin Machkour"),
                                    as.person("Michael Muma"),
                                    as.person("Daniel P. Palomar")),
@@ -25,8 +25,7 @@ citEntry(entry = "Article",
          year         = "2021",
          url          = "https://arxiv.org/abs/2110.06048",
          textVersion  =
-           paste("J. Machkour, S. Tien, D. P. Palomar, and M. Muma (2021).",
-                 "The Terminating-Knockoff filter: Fast high-dimensional variable selection with false discovery rate control.",
-                 "arXiv preprint arXiv:2110.06048.",
-                 "https://arxiv.org/abs/2110.06048")
+           paste("J. Machkour, M. Muma, and D. P. Palomar (2021).",
+                 "The Terminating-Knockoff filter: Fast high-dimensional variable selection with false discovery rate
+                 control.", "arXiv preprint arXiv:2110.06048.", "https://arxiv.org/abs/2110.06048")
 )
