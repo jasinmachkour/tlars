@@ -16,7 +16,7 @@ citEntry(entry = "Manual",
 )
 
 citEntry(entry = "Article",
-         title        = "The Terminating-Knockoff Filter: Fast High-Dimensional Variable Selection with False Discovery
+         title        = "The {T}erminating-{K}nockoff Filter: Fast High-Dimensional Variable Selection with False Discovery
                         Rate Control",
          author       = personList(as.person("Jasin Machkour"),
                                    as.person("Michael Muma"),
