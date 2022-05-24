@@ -13,13 +13,13 @@ output:
 
 
 # tlars
-**Title**: The Terminated-LARS (T-LARS) algorithm for high-dimensional early terminated forward variable selection
+**Title**: The Terminating-LARS (T-LARS) algorithm for high-dimensional early-terminated forward variable selection
 
 **Description**: It computes the solution path of the Terminating-LARS (T-LARS) algorithm. The T-LARS algorithm appends dummy predictors to the original predictor matrix and terminates the forward-selection process after a pre-defined number of dummy variables has been selected.
 
-**Note**: The T-LARS algorithm is a major building block of the T-Rex Selector ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)). The T-Rex Selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of each random experiment to obtain a final set of selected variables, while provably controlling the FDR at the user-defined target level and maximizing the number of selected variables.
+**Note**: The T-LARS algorithm is a major building block of the T-Rex selector ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the false discovery rate (FDR), i.e., the expected fraction of selected false positives among all selected variables, at the user-defined target level while maximizing the number of selected variables.
 
-In the following, we want to show you how to use the package and give you an idea of why terminating the solution path early is a reasonable approach in high-dimensional and sparse variable selection: In many applications, most active variables enter the solution path early!
+In the following, we show how to use the package and give you an idea of why terminating the solution path early is a reasonable approach in high-dimensional and sparse variable selection: In many applications, most active variables enter the solution path early!
 
 ## Installation
 You can install the tlars package from [GitHub](https://github.com/jasinmachkour/tlars) with 
@@ -91,19 +91,19 @@ mod_tlars <- tlars_model(X = XD, y = y, num_dummies = num_dummies)
 #> 		 the last num_dummies = 150 predictors are dummies
 ```
 
-4. **Finally**, we perform three T-LARS-steps on "mod_tlars", i.e., the T-LARS algorithm is run until **T_stop = 3** dummies have entered the solution path and stops there. For comparison, we also compute the whole solution path by setting early_stop = FALSE:
+4. **Finally**, we perform three T-LARS steps on "mod_tlars", i.e., the T-LARS algorithm is run until **T_stop = 3** dummies have entered the solution path and stops there. For comparison, we also compute the whole solution path by setting early_stop = FALSE:
 
-4.1. Perform three T-LARS-steps on object "mod_tlars":
+4.1. Perform three T-LARS steps on object "mod_tlars":
 
 
 ```r
-tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE) # Perform three T-LARS-steps on object "mod_tlars"
-#> Executing T-LARS-step by reference...
-#> 		 Finished T-LARS-step(s)... 
+tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE) # Perform three T-LARS steps on object "mod_tlars"
+#> Executing T-LARS step by reference...
+#> 		 Finished T-LARS step(s)... 
 #> 			 - The results are stored in the C++ object 'mod_tlars'.
 #> 			 - New value of T_stop: 3.
 #> 			 - Time elaped: 0.001 sec.
-print(mod_tlars) # Print information about the results of the performed T-LARS-steps
+print(mod_tlars) # Print information about the results of the performed T-LARS steps
 #> 'mod_tlars' is a C++ object of class 'tlars_cpp' ... 
 #> 	 - Number of dummies: 150.
 #> 	 - Number of included dummies: 3.
@@ -119,10 +119,10 @@ plot(mod_tlars) # Plot the terminated solution path
 ```r
 tlars(model = mod_tlars, early_stop = FALSE) # Compute the whole solution path
 #> 'T_stop' is ignored. Computing the entire solution path...
-#> Executing T-LARS-step by reference...
-#> 		 Finished T-LARS-step(s). No early stopping! 
+#> Executing T-LARS step by reference...
+#> 		 Finished T-LARS step(s). No early stopping! 
 #> 			 - The results are stored in the C++ object 'mod_tlars'.
-#> 			 - Time elaped: 0.007 sec.
+#> 			 - Time elaped: 0.006 sec.
 print(mod_tlars) # Print information about the results
 #> 'mod_tlars' is a C++ object of class 'tlars_cpp' ... 
 #> 	 - Number of dummies: 150.
@@ -134,7 +134,7 @@ plot(mod_tlars) # Plot the whole solution path
 <img src="man/figures/README-full_solution_path-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Outlook
-The T-LARS algorithm is a major building block of the T-Rex Selector ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)). The T-Rex Selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of each random experiment to obtain a final set of selected variables, while provably controlling the FDR at the user-defined target level and maximizing the number of selected variables. Check it out if you need a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings!
+The T-LARS algorithm is a major building block of the T-Rex selector ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the FDR at the user-defined target level while maximizing the number of selected variables. If you are working in genomics, financial engineering, or any other field that requires a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings, then this is for you. Check it out!
 
 ## Documentation
 For more information and some examples, please check the
