@@ -102,7 +102,7 @@ tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE) # Perform three T-LARS s
 #> 		 Finished T-LARS step(s)... 
 #> 			 - The results are stored in the C++ object 'mod_tlars'.
 #> 			 - New value of T_stop: 3.
-#> 			 - Time elaped: 0.001 sec.
+#> 			 - Time elaped: 0.003 sec.
 print(mod_tlars) # Print information about the results of the performed T-LARS steps
 #> 'mod_tlars' is a C++ object of class 'tlars_cpp' ... 
 #> 	 - Number of dummies: 150.
@@ -138,15 +138,15 @@ The T-LARS algorithm is a major building block of the T-Rex selector ([Paper](ht
 
 ## Documentation
 For more information and some examples, please check the
-[GitHub-vignette](https://github.com/jasinmachkour/tlars/blob/main/vignettes/tlars_variable_selection.Rmd).
+[GitHub-vignette](https://htmlpreview.github.io/?https://github.com/jasinmachkour/tlars/blob/main/vignettes/tlars_variable_selection.html).
 
 
 ## Links
 tlars package: [GitHub-tlars](https://github.com/jasinmachkour/tlars).
 
-README file: [GitHub-readme](https://github.com/jasinmachkour/tlars/blob/main/README.html).
+README file: [GitHub-readme](https://htmlpreview.github.io/?https://github.com/jasinmachkour/tlars/blob/main/README.html).
 
-Vignette: [GitHub-vignette](https://github.com/jasinmachkour/tlars/blob/main/vignettes/tlars_variable_selection.Rmd).
+Vignette: [GitHub-vignette](https://htmlpreview.github.io/?https://github.com/jasinmachkour/tlars/blob/main/vignettes/tlars_variable_selection.html).
 
 trex package: [GitHub-trex](https://github.com/jasinmachkour/tknock).
 

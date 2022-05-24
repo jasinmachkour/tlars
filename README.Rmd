@@ -113,15 +113,15 @@ The T-LARS algorithm is a major building block of the T-Rex selector ([Paper](ht
 
 ## Documentation
 For more information and some examples, please check the
-[GitHub-vignette](https://github.com/jasinmachkour/tlars/blob/main/vignettes/tlars_variable_selection.Rmd).
+[GitHub-vignette](https://htmlpreview.github.io/?https://github.com/jasinmachkour/tlars/blob/main/vignettes/tlars_variable_selection.html).
 
 
 ## Links
 tlars package: [GitHub-tlars](https://github.com/jasinmachkour/tlars).
 
-README file: [GitHub-readme](https://github.com/jasinmachkour/tlars/blob/main/README.html).
+README file: [GitHub-readme](https://htmlpreview.github.io/?https://github.com/jasinmachkour/tlars/blob/main/README.html).
 
-Vignette: [GitHub-vignette](https://github.com/jasinmachkour/tlars/blob/main/vignettes/tlars_variable_selection.Rmd).
+Vignette: [GitHub-vignette](https://htmlpreview.github.io/?https://github.com/jasinmachkour/tlars/blob/main/vignettes/tlars_variable_selection.html).
 
 trex package: [GitHub-trex](https://github.com/jasinmachkour/tknock).
 
