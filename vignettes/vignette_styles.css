@@ -1,9 +1,6 @@
-<style>
-body {background-color: #ffffff;}
-
 h1 {
   color:  #336C68;
-  font-family: Titillium web;
+  font-family: 'Titillium Web', sans-serif;
   font-size: 44px;
   font-weight: 600;
 
@@ -11,20 +8,14 @@ h1 {
 
 h2 {
   color:  #6BB2AD;
-  font-family: Titillium web;
+  font-family: 'Titillium Web', sans-serif;
   font-size: 22px;
   font-weight: 600;
 
 }
 
-p  {
-  color: black;
-  font-family: Titillium web;
-  font-size: 17px;
-  font-weight: 500;
-}
-
-::selection {
-  background: #6BB2AD;
-}
-</style>
+p {background-color: #ffffff;
+	  color: black;
+	  font-family: 'Titillium Web', sans-serif;
+	  font-size: 17px;
+	  font-weight: 500;}

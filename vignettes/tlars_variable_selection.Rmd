@@ -50,11 +50,11 @@ options(width = 80)
 # Motivation
 This package implements the **Terminating-LARS (T-LARS)** algorithm, i.e., it computes the solution path of the T-LARS algorithm. The T-LARS algorithm appends dummy predictors to the original predictor matrix and terminates the forward-selection process after a pre-defined number of dummy variables has been selected.
 
-In contrast, the original LARS algorithm computes the entire solution path without stopping early. However, in certain applications there exists very little or no useful information in later steps of the solution path and, therefore, stopping early allows for huge improvements in terms of computation time and no loss in the variable selection accuracy. Especially the **T-Rex Selector** ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)) requires terminating multiple solution paths early after a pre-defined number of dummy variables has been included.
+In contrast, the original LARS algorithm computes the entire solution path without stopping early. However, in certain applications there exists very little or no useful information in later steps of the solution path and, therefore, stopping early allows for huge improvements in terms of computation time and no loss in the variable selection accuracy. Especially the **T-Rex selector** ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)) requires terminating multiple solution paths early after a pre-defined number of dummy variables has been included.
 
-The T-LARS algorithm is a major building block of the **T-Rex Selector**. The T-Rex Selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of each random experiment to obtain a final set of selected variables, while provably controlling the FDR at the user-defined target level and maximizing the number of selected variables.
+The T-LARS algorithm is a major building block of the **T-Rex selector**. The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the false discovery rate (FDR), i.e., the expected fraction of selected false positives among all selected variables, at the user-defined target level while maximizing the number of selected variables.
 
-In the following, we want to show you how to use the package and give you an idea of why terminating the solution path early is a reasonable approach in high-dimensional and sparse variable selection: In many applications, most active variables enter the solution path early!
+In the following, we show how to use the package and give you an idea of why terminating the solution path early is a reasonable approach in high-dimensional and sparse variable selection: In many applications, most active variables enter the solution path early!
 
 <!-- Include Latex macros -->
 $$
@@ -86,14 +86,14 @@ help(package = "tlars")
 ?Gauss_data
 ```
 
-To cite the package ‘tlars’ in publications use:
+To cite the package ‘tlars’ in publications use
 ```{r, eval=FALSE}
 citation("tlars")
 ```
 
 
-## Quick Start
-In the following, we illustrate the basic usage of the tlars package to perform variable selection in sparse and high-dimensional regression settings using the T-LARS algorithm.
+# Quick Start
+In the following, we illustrate the basic usage of the tlars package for performing variable selection in sparse and high-dimensional regression settings using the T-LARS algorithm:
 
 1. **First**, we generate a high-dimensional Gaussian data set with sparse support:
 ```{r}
@@ -125,18 +125,17 @@ XD <- cbind(X, dummies)
 mod_tlars <- tlars_model(X = XD, y = y, num_dummies = num_dummies)
 ```
 
-4. **Finally**, we perform one T-LARS-step on "mod_tlars", i.e., the T-LARS algorithm is run until **T_stop = 1** dummy has entered the solution path and stops there:
+4. **Finally**, we perform one T-LARS step on "mod_tlars", i.e., the T-LARS algorithm is run until **T_stop = 1** dummy has entered the solution path and stops there:
 
-4.1. Perform one T-LARS-step on object "mod_tlars":
 ```{r terminated_solution_path_T_3, echo=TRUE, fig.align='center', message=TRUE, fig.width = 10, fig.height = 6, out.width = "90%"}
-tlars(model = mod_tlars, T_stop = 1, early_stop = TRUE) # Perform one T-LARS-step on object "mod_tlars"
-print(mod_tlars) # Print information about the results of the performed T-LARS-steps
+tlars(model = mod_tlars, T_stop = 1, early_stop = TRUE) # Perform one T-LARS step on object "mod_tlars"
+print(mod_tlars) # Print information about the results of the performed T-LARS steps
 plot(mod_tlars) # Plot the terminated solution path
 ```
 
 
 # T-LARS Warm Starts
-The object "mod_tlars" stores the results and, therefore, allows for warm starts. That is, after performing a T-LARS-step with, e.g., "T_stop = 1", we can perform another T-LARS-step with, e.g., "T_stop = 2, 3, ...", by continuing to build the solution path from its last T-LARS-step.
+The object "mod_tlars" stores the results and, therefore, allows for warm starts. That is, after performing a T-LARS step with, e.g., "T_stop = 1", we can perform another T-LARS step with, e.g., "T_stop = 2, 3, ...", by continuing to build the solution path from its last T-LARS step.
 
 ******
 
@@ -146,7 +145,7 @@ The object "mod_tlars" stores the results and, therefore, allows for warm starts
 # Numerical zero
 eps <- .Machine$double.eps
 
-# Perform one additional T-LARS-step (going from T_stop = 1 to T_stop = 2) on object "mod_tlars"
+# Perform one additional T-LARS step (going from T_stop = 1 to T_stop = 2) on object "mod_tlars"
 tlars(model = mod_tlars, T_stop = 2, early_stop = TRUE)
 print(mod_tlars)
 plot(mod_tlars)
@@ -171,7 +170,7 @@ TPP
 * **T_stop = 5**:
 
 ```{r terminated_solution_path_T_10, echo=TRUE, fig.align='center', message=TRUE, fig.width = 10, fig.height = 6, out.width = "90%"}
-# Perform three additional T-LARS-steps (going from T_stop = 2 to T_stop = 5) on object "mod_tlars"
+# Perform three additional T-LARS steps (going from T_stop = 2 to T_stop = 5) on object "mod_tlars"
 tlars(model = mod_tlars, T_stop = 5, early_stop = TRUE)
 print(mod_tlars)
 plot(mod_tlars)
@@ -195,7 +194,8 @@ TPP
 
 
 # FDR and TPR
-From a statistical point of view, it is desirable to use a variable selection method that allows for controlling the expected value of the FDP at a user-defined target level $\alpha \in [0, 1]$ while maximizing the number of selected variables. These type of methods exist and are called false discovery rate (FDR)-controlling methods. For example, the [T-Rex Selector](https://arxiv.org/abs/2110.06048) is a fast and FDR-controlling variable/feature selection framework for large-scale high-dimensional settings that relies on the T-LARS method.
+## False discovery rate (FDR) and true positive rate (TPR)
+From a statistical point of view, it is desirable to use a variable selection method that allows for controlling the expected value of the FDP at a user-defined target level $\alpha \in [0, 1]$ while maximizing the number of selected variables. These type of methods exist and are called false discovery rate (FDR)-controlling methods. For example, the **T-Rex selector** ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)) is a fast and FDR-controlling variable/feature selection framework for large-scale high-dimensional settings that relies on the T-LARS method.
 
 **Definitions** (FDR and TPR)
 Let $\widehat{\A} \subseteq \lbrace 1, \ldots, p \rbrace$ be the set of selected variables, $\A \subseteq \lbrace 1, \ldots, p \rbrace$ the set of true active variables, $| \widehat{\A} |$ the cardinality of $\widehat{\A}$, and define $1 \lor a \coloneqq \max\lbrace 1, a \rbrace$, $a \in \mathbb{R}$. Then, the false discovery rate (FDR) and the true positive rate (TPR) are defined by
@@ -250,7 +250,7 @@ for (t in seq_along(T_vec)) {
     # Create object of class tlars_cpp
     mod_tlars <- tlars_model(X = XD, y = y, num_dummies = num_dummies, type = "lar", info = FALSE)
 
-    # Run T-LARS-steps
+    # Run T-LARS steps
     tlars(model = mod_tlars, T_stop = t, early_stop = TRUE, info = FALSE)
     beta_hat <- mod_tlars$get_beta()
     selected_var <- which(abs(beta_hat[seq(p)]) > eps)
@@ -280,7 +280,7 @@ FDR_vs_T =
   ggplot(plot_data, aes(x = T_vec, y = FDR)) +
     labs(x = "T",
          y = "FDR") +
-    scale_x_continuous(breaks = T_vec[-2], minor_breaks = c(), limits = c(T_vec[1], T_vec[length(T_vec)])) +
+    scale_x_continuous(breaks = T_vec[-2], minor_breaks = c(2), limits = c(T_vec[1], T_vec[length(T_vec)])) +
     scale_y_continuous(breaks = seq(0, 100, by = 10), minor_breaks = c(), limits = c(0, 100)) +
     geom_line(size = 1.5, colour = "#336C68") +
     geom_point(size = 2.5, colour = "#336C68") +
@@ -293,7 +293,7 @@ TPR_vs_T =
   ggplot(plot_data, aes(x = T_vec, y = TPR)) +
     labs(x = "T",
          y = "TPR") +
-    scale_x_continuous(breaks = T_vec[-2], minor_breaks = c(), limits = c(T_vec[1], T_vec[length(T_vec)])) +
+    scale_x_continuous(breaks = T_vec[-2], minor_breaks = c(2), limits = c(T_vec[1], T_vec[length(T_vec)])) +
     scale_y_continuous(breaks = seq(0, 100, by = 10), minor_breaks = c(), limits = c(0, 100)) +
     geom_line(size = 1.5, colour = "#336C68") +
     geom_point(size = 2.5, colour = "#336C68") +
@@ -319,6 +319,8 @@ TPR_vs_FDR
 We observe that with growing number of included dummies $T$ the FDR and TPR increase. Moreover, we see that there seems to be a trade-off between FDR and TPR. For more details and discussions on these observations, we refer the interested reader to [@machkour2021terminating].
 
 # Outlook
-The T-LARS algorithm is a major building block of the T-Rex Selector ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)). The T-Rex Selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of each random experiment to obtain a final set of selected variables, while provably controlling the FDR at the user-defined target level and maximizing the number of selected variables. Check it out if you need a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings!
+The T-LARS algorithm is a major building block of the T-Rex selector ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/tknock)). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the FDR at the user-defined target level while maximizing the number of selected variables. If you are working in genomics, financial engineering, or any other field that requires a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings, then this is for you. Check it out!
 
 # References {-}
+<!-- <div class="tocify-extend-page" data-unique="tocify-extend-page" style="height: 0px;"></div> -->
+
