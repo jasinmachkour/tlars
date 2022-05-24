@@ -2,7 +2,7 @@
 % Please edit documentation in R/tlars.R
 \name{tlars}
 \alias{tlars}
-\title{Executes the Terminated-LARS (T-LARS) algorithm}
+\title{Executes the Terminating-LARS (T-LARS) algorithm}
 \usage{
 tlars(model, T_stop = 1, early_stop = TRUE, info = TRUE)
 }

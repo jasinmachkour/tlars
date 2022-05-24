@@ -1,4 +1,4 @@
-#' Executes the Terminated-LARS (T-LARS) algorithm
+#' Executes the Terminating-LARS (T-LARS) algorithm
 #'
 #' Modifies the generic tlars_cpp model by executing the T-LARS algorithm and including the results in the tlars_cpp model.
 #'
@@ -45,11 +45,11 @@ tlars <- function(model,
 
   # Execute T-LARS and print information if info = TRUE
   if (info) {
-    # Print information about the T-LARS-step
-    mes1 <- "Executing T-LARS-step by reference..."
+    # Print information about the T-LARS step
+    mes1 <- "Executing T-LARS step by reference..."
     message(mes1)
 
-    # Execute and time T-LARS-step
+    # Execute and time T-LARS step
     start <- Sys.time()
     model$execute_lars_step(T_stop = T_stop, early_stop = early_stop)
     end <- Sys.time()
@@ -58,10 +58,10 @@ tlars <- function(model,
     # Get name of C++ object passed to function argument "model"
     mod_name <- deparse(substitute(model))
 
-    # Print information about the executed T-LARS-step
+    # Print information about the executed T-LARS step
     if (early_stop) {
       mes2 <- paste0(
-        "\t\t Finished T-LARS-step(s)... \n",
+        "\t\t Finished T-LARS step(s)... \n",
         "\t\t\t - The results are stored in the C++ object '",
         mod_name,
         "'.\n",
@@ -74,7 +74,7 @@ tlars <- function(model,
       )
     } else {
       mes2 <- paste0(
-        "\t\t Finished T-LARS-step(s). No early stopping! \n",
+        "\t\t Finished T-LARS step(s). No early stopping! \n",
         "\t\t\t - The results are stored in the C++ object '",
         mod_name,
         "'.\n",
@@ -85,7 +85,7 @@ tlars <- function(model,
     }
     message(mes2)
   } else {
-    # Execute T-LARS-step
+    # Execute T-LARS step
     model$execute_lars_step(T_stop = T_stop, early_stop = early_stop)
   }
 }

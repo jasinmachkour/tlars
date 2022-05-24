@@ -2,7 +2,7 @@
 % Please edit documentation in R/tlars_model.R
 \name{tlars_model}
 \alias{tlars_model}
-\title{Creates a Terminated-LARS (tlars) object}
+\title{Creates a Terminating-LARS (T-LARS) object}
 \usage{
 tlars_model(
   lars_state,

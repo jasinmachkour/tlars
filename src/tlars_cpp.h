@@ -7,7 +7,7 @@
 #include <RcppArmadillo.h>
 
 /**
- * Class that implements the Terminated-LARS (T-LARS) algorithm.
+ * Class that implements the Terminating-LARS (T-LARS) algorithm.
  *
  */
 

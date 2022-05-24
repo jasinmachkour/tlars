@@ -558,7 +558,7 @@ void tlars_cpp::initialize_values(Rcpp::List lars_state)
 
 }
 
-/** Executes LARS-steps until a stopping-condition is satisfied
+/** Executes T-LARS steps until a stopping-condition is satisfied
  *
  * @param T_stop Number of included dummies after which the random experiments (i.e., forward selection processes) are stopped.
  * @param early_stop Logical. If TRUE, then the forward selection process is stopped after T_stop dummies have been included. Otherwise

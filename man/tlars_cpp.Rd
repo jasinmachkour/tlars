@@ -35,7 +35,7 @@ Type "tlars_cpp" in the console to see the constructors, variables, and methods 
 
 \item{\code{Constructor:}}{new - Re-creates an object of the class tlars_cpp based on a list of class variables that is obtained via get_all().}
 
-\item{\code{Method:}}{execute_lars_step - Executes LARS-steps until a stopping-condition is satisfied.}
+\item{\code{Method:}}{execute_lars_step - Executes LARS steps until a stopping-condition is satisfied.}
 
 \item{\code{Method:}}{get_beta - Returns the estimate of the beta vector.}
 

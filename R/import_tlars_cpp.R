@@ -16,7 +16,7 @@
 #' @field Constructor: new - Re-creates an object of the class tlars_cpp based on a list of class variables that is obtained via get_all().
 #' @param  lars_state Input list that was extracted from a previous tlars_cpp object using get_all().
 #'
-#' @field Method: execute_lars_step - Executes LARS-steps until a stopping-condition is satisfied.
+#' @field Method: execute_lars_step - Executes LARS steps until a stopping-condition is satisfied.
 #' @param T_stop Number of included dummies after which the random experiments (i.e., forward selection processes) are stopped.
 #' @param early_stop Logical. If TRUE, then the forward selection process is stopped after T_stop dummies have been included.
 #' Otherwise the entire solution path is computed.

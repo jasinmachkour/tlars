@@ -1,4 +1,4 @@
-#' Creates a Terminated-LARS (tlars) object
+#' Creates a Terminating-LARS (T-LARS) object
 #'
 #' Creates an object of the class tlars_cpp.
 #'
