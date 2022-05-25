@@ -280,14 +280,14 @@ Rcpp::List tlars_cpp::get_all()
                          Rcpp::Named("drop_ind") = drop_ind,
                          Rcpp::Named("sign_vec") = sign_vec,
                          Rcpp::Named("verbose") = verbose,
-                         Rcpp::Named("L_val") = num_dummies,
+                         Rcpp::Named("num_dummies") = num_dummies,
                          Rcpp::Named("standardize") = standardize,
                          Rcpp::Named("intercept") = intercept,
                          Rcpp::Named("type") = type,
                          Rcpp::Named("step_type") = step_type,
                          Rcpp::Named("count_dummies") = count_dummies,
                          Rcpp::Named("k") = k,
-                         Rcpp::Named("e_stop") = e_stop,
+                         Rcpp::Named("early_stop") = early_stop,
                          Rcpp::Named("gamhat1") = gamhat1,
                          Rcpp::Named("gamhat2") = gamhat2,
                          Rcpp::Named("mod_X_matrix") = mod_X_matrix,
@@ -461,7 +461,7 @@ void tlars_cpp::initialize_values()
 
     //Initialize some loop-parameters
     k = 0;
-    e_stop = false;
+    early_stop = false;
     drop = false;
 
     // Initialize remaining parameters
@@ -536,14 +536,14 @@ void tlars_cpp::initialize_values(Rcpp::List lars_state)
     drop_ind = Rcpp::as<std::list<int>>(l3["drop_ind"]);
     sign_vec = Rcpp::as<arma::vec>(l3["sign_vec"]);
     verbose = l3["verbose"];
-    num_dummies = l3["L_val"];
+    num_dummies = l3["num_dummies"];
     standardize = l3["standardize"];
     intercept = l3["intercept"];
     type = Rcpp::as<std::string>(l3["type"]);
     step_type = Rcpp::as<std::string>(l3["step_type"]);
     count_dummies = l3["count_dummies"];
     k = l3["k"];
-    e_stop = l3["e_stop"];
+    early_stop = l3["early_stop"];
     gamhat1 = Rcpp::as<arma::vec>(l3["gamhat1"]);
     gamhat2 = Rcpp::as<arma::vec>(l3["gamhat2"]);
     mod_X_matrix = Rcpp::as<arma::mat>(l3["mod_X_matrix"]);

@@ -116,7 +116,7 @@ private:
     std::list<int>::iterator inner_it;
     std::list<double>::iterator double_it;
     int k;
-    bool e_stop;
+    bool early_stop;
     arma::vec gamhat1;
     arma::vec gamhat2;
     arma::mat mod_X_matrix;
@@ -127,7 +127,6 @@ private:
     double machine_prec;
     std::list<int> actions;
     std::list<int> df;
-    Rcpp::List lars_state;
 };
 
 #endif /* tlars_cpp_h */
