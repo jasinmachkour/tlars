@@ -22,9 +22,10 @@ X <- Gauss_data$X
 y <- drop(Gauss_data$y)
 p <- ncol(X)
 n <- nrow(X)
-dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+num_dummies <- p
+dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = num_dummies)
 XD <- cbind(X, dummies)
-mod_tlars <- tlars_model(X = XD, y = y, num_dummies = ncol(dummies))
+mod_tlars <- tlars_model(X = XD, y = y, num_dummies = num_dummies)
 tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 print(mod_tlars)
 }

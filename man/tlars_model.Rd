@@ -29,7 +29,7 @@ in parallel processing).}
 
 \item{num_dummies}{Number of dummies that are appended to the predictor matrix.}
 
-\item{verbose}{Logical. If TRUE progress in computations is shown.}
+\item{verbose}{Logical. If TRUE progress in computations is shown when performing T-LARS steps on the created model.}
 
 \item{intercept}{Logical. If TRUE an intercept is included.}
 
@@ -37,7 +37,7 @@ in parallel processing).}
 
 \item{type}{'lar' for 'LARS' and 'lasso' for Lasso.}
 
-\item{info}{Logical. If TRUE information about the T-LARS step is printed.}
+\item{info}{Logical. If TRUE and object is not recreated from previous T-LARS state, then information about the created object is printed.}
 }
 \value{
 Object of the class tlars_cpp.
@@ -51,8 +51,9 @@ X <- Gauss_data$X
 y <- drop(Gauss_data$y)
 p <- ncol(X)
 n <- nrow(X)
-dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+num_dummies <- p
+dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = num_dummies)
 XD <- cbind(X, dummies)
-mod_tlars <- tlars_model(X = XD, y = y, num_dummies = ncol(dummies))
+mod_tlars <- tlars_model(X = XD, y = y, num_dummies = num_dummies)
 mod_tlars
 }

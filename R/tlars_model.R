@@ -10,11 +10,11 @@
 #' @param X Real valued predictor matrix.
 #' @param y Response vector.
 #' @param num_dummies Number of dummies that are appended to the predictor matrix.
-#' @param verbose Logical. If TRUE progress in computations is shown.
+#' @param verbose Logical. If TRUE progress in computations is shown when performing T-LARS steps on the created model.
 #' @param intercept Logical. If TRUE an intercept is included.
 #' @param standardize Logical. If TRUE the predictors are standardized and the response is centered.
 #' @param type 'lar' for 'LARS' and 'lasso' for Lasso.
-#' @param info Logical. If TRUE information about the T-LARS step is printed.
+#' @param info Logical. If TRUE and object is not recreated from previous T-LARS state, then information about the created object is printed.
 #'
 #' @return Object of the class tlars_cpp.
 #'
@@ -28,9 +28,10 @@
 #' y <- drop(Gauss_data$y)
 #' p <- ncol(X)
 #' n <- nrow(X)
-#' dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+#' num_dummies <- p
+#' dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = num_dummies)
 #' XD <- cbind(X, dummies)
-#' mod_tlars <- tlars_model(X = XD, y = y, num_dummies = ncol(dummies))
+#' mod_tlars <- tlars_model(X = XD, y = y, num_dummies = num_dummies)
 #' mod_tlars
 tlars_model <- function(lars_state,
                         X,
@@ -45,64 +46,67 @@ tlars_model <- function(lars_state,
   if (!missing(lars_state)) {
     if (length(lars_state) != 4) {
       stop(
-        "'lars_state' has to be a list containing the state variables of an object of class tlars_cpp.
-           It has to be obtained via model$get_all(), where 'model' is the object from which the state variables
-           are extracted."
+        "'lars_state' has to be a list containing the state variables of an object of class tlars_cpp. It has to be obtained via model$get_all(), where 'model' is the object from which the state variables are extracted."
       )
     } else {
-      if (lars_state$l1 != 20 ||
-        lars_state$l2 != 20 ||
-        lars_state$l3 != 20 ||
-        lars_state$l4 != 2) {
+      if (length(lars_state$l1) != 20 ||
+        length(lars_state$l2) != 20 ||
+        length(lars_state$l3) != 20 ||
+        length(lars_state$l4) != 2) {
         stop(
-          "'lars_state' has to be a list containing the state variables of an object of class tlars_cpp.
-           It has to be obtained via model$get_all(), where 'model' is the object from which the state variables
-           are extracted."
+          "'lars_state' has to be a list containing the state variables of an object of class tlars_cpp. It has to be obtained via model$get_all(), where 'model' is the object from which the state variables are extracted."
         )
       }
     }
+  } else {
+    if (!is.matrix(X)) {
+      stop("'X' must be a matrix.")
+    }
+
+    if (!is.numeric(X)) {
+      stop("'X' only allows numerical values.")
+    }
+
+    if (anyNA(X)) {
+      stop("'X' contains NAs. Please remove or impute them before proceeding.")
+    }
+
+    if (!is.vector(drop(y))) {
+      stop("'y' must be a vector.")
+    }
+
+    if (!is.numeric(y)) {
+      stop("'y' only allows numerical values.")
+    }
+
+    if (anyNA(y)) {
+      stop("'y' contains NAs. Please remove or impute them before proceeding.")
+    }
+
+    if (nrow(X) != length(drop(y))) {
+      stop("Number of rows in X does not match length of y.")
+    }
+
+    if (num_dummies %% 1 != 0 ||
+      num_dummies < 1 ||
+      num_dummies > ncol(X) - 1) {
+      stop(
+        "'num_dummies' must be an integer larger or equal to 1 and smaller than the total number of predictors in X. This integer must be the number of dummy predictors appended to the right side of the orginal predictor matrix."
+      )
+    }
+
+    if (!standardize) {
+      warning(
+        "'standardize' should be TRUE for the T-LARS algorithm. Since you set standardize = FALSE, we hope that you have a good reason for doing that!"
+      )
+    }
+
+    if (!(type %in% c("lar", "lasso"))) {
+      stop("'type' must be one of 'lar', 'lasso'.")
+    }
   }
 
-  if (!is.matrix(X)) {
-    stop("'X' must be a matrix.")
-  }
-
-  if (!is.numeric(X)) {
-    stop("'X' only allows numerical values.")
-  }
-
-  if (anyNA(X)) {
-    stop("'X' contains NAs. Please remove or impute them before proceeding.")
-  }
-
-  if (!is.vector(drop(y))) {
-    stop("'y' must be a vector.")
-  }
-
-  if (!is.numeric(y)) {
-    stop("'y' only allows numerical values.")
-  }
-
-  if (anyNA(y)) {
-    stop("'y' contains NAs. Please remove or impute them before proceeding.")
-  }
-
-  if (num_dummies %% 1 != 0 ||
-    num_dummies < 1) {
-    stop("'num_dummies' must be an integer larger or equal to 1.")
-  }
-
-  if (!standardize) {
-    warning("'standardize' should be TRUE for the T-LARS algorithm. Since you set standardize = FALSE,
-            we hope that you have a good reason for doing that!")
-  }
-
-  if (!(type %in% c("lar", "lasso"))) {
-    stop("'type' must be one of 'lar', 'lasso'.")
-  }
-
-
-  # Execute T-LARS step
+  # Create C++ object of class tlars_cpp
   if (missing(lars_state)) {
     mod_tlars <- new(
       tlars::tlars_cpp,
@@ -120,7 +124,7 @@ tlars_model <- function(lars_state,
     )
   }
 
-  if (info) {
+  if (info && missing(lars_state)) {
     # Get name of predictor matrix passed to function argument "X"
     pred_mat_name <- deparse(substitute(X))
 

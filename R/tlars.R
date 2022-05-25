@@ -19,9 +19,10 @@
 #' y <- drop(Gauss_data$y)
 #' p <- ncol(X)
 #' n <- nrow(X)
-#' dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+#' num_dummies <- p
+#' dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = num_dummies)
 #' XD <- cbind(X, dummies)
-#' mod_tlars <- tlars_model(X = XD, y = y, num_dummies = ncol(dummies))
+#' mod_tlars <- tlars_model(X = XD, y = y, num_dummies = num_dummies)
 #' tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE)
 #' beta <- mod_tlars$get_beta()
 #' beta
@@ -43,7 +44,7 @@ tlars <- function(model,
     message("'T_stop' is ignored. Computing the entire solution path...")
   }
 
-  # Execute T-LARS and print information if info = TRUE
+  # Execute T-LARS step and print information if info = TRUE
   if (info) {
     # Print information about the T-LARS step
     mes1 <- "Executing T-LARS step by reference..."
