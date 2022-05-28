@@ -64,6 +64,7 @@ test_that("error control for input X works", {
   "'X' must be a matrix.",
   fixed = TRUE
   )
+
   expect_error(
     tlars_model(
       X = matrix(as.character(XD), ncol = ncol(XD)),
@@ -73,6 +74,7 @@ test_that("error control for input X works", {
     "'X' only allows numerical values.",
     fixed = TRUE
   )
+
   expect_error(
     tlars_model(
       X = matrix(as.factor(XD), ncol = ncol(XD)),
@@ -82,6 +84,7 @@ test_that("error control for input X works", {
     "'X' only allows numerical values.",
     fixed = TRUE
   )
+
   expect_error(
     tlars_model(
       X = XD_w_NA,
@@ -118,6 +121,7 @@ test_that("error control for input y works", {
     "'y' must be a vector.",
     fixed = TRUE
   )
+
   expect_error(
     tlars_model(
       X = XD,
@@ -127,6 +131,7 @@ test_that("error control for input y works", {
     "'y' only allows numerical values.",
     fixed = TRUE
   )
+
   expect_error(
     tlars_model(
       X = XD,
@@ -136,6 +141,7 @@ test_that("error control for input y works", {
     "'y' only allows numerical values.",
     fixed = TRUE
   )
+
   expect_error(
     tlars_model(
       X = XD,
@@ -145,6 +151,7 @@ test_that("error control for input y works", {
     "'y' contains NAs. Please remove or impute them before proceeding.",
     fixed = TRUE
   )
+
   expect_error(
     tlars_model(
       X = rbind(X, dummies),
@@ -181,6 +188,7 @@ test_that(
       "'num_dummies' must be an integer larger or equal to 1 and smaller than the total number of predictors in X. This integer must be the number of dummy predictors appended to the right side of the orginal predictor matrix.",
       fixed = TRUE
     )
+
     expect_error(
       tlars_model(
         X = XD,
@@ -190,6 +198,7 @@ test_that(
       "'num_dummies' must be an integer larger or equal to 1 and smaller than the total number of predictors in X. This integer must be the number of dummy predictors appended to the right side of the orginal predictor matrix.",
       fixed = TRUE
     )
+
     expect_error(
       tlars_model(
         X = XD,
