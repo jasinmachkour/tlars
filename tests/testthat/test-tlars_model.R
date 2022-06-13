@@ -50,7 +50,9 @@ test_that("error control for input X works", {
   y <- drop(Gauss_data$y)
   p <- ncol(X)
   n <- nrow(X)
-  dummies <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+  num_dummies <- p
+  dummies <-
+    matrix(stats::rnorm(n * p), nrow = n, ncol = num_dummies)
   XD <- cbind(X, dummies)
   XD_w_NA <- XD
   XD_w_NA[sample(prod(dim(XD)), size = 100)] <- NA
