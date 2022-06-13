@@ -2,7 +2,7 @@
 #'
 #' Creates an object of the class tlars_cpp.
 #'
-#' @param lars_state Variables associated with previous T-LARS step (necessary to restart
+#' @param lars_state List of variables associated with previous T-LARS step (necessary to restart
 #' the forward selection process exactly where it was previously terminated). The lars_state
 #' is extracted from an object of class tlars_cpp via get_all() and is only required when the
 #' object (or its pointer) of class tlars_cpp is deleted or got lost in another R session (e.g.,
