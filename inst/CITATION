@@ -1,7 +1,7 @@
 citHeader("To cite 'tlars' in publications, please use:")
 
 citEntry(entry = "Manual",
-         title        = "{tlars: The Terminated-LARS (T-LARS) algorithm for high-dimensional early terminated forward variable selection}",
+         title        = "{tlars: The Terminating-LARS (T-LARS) algorithm for high-dimensional early terminated forward variable selection}",
          author       = personList(as.person("Jasin Machkour"),
                                    as.person("Simon Tien"),
                                    as.person("Daniel P. Palomar"),
@@ -11,7 +11,7 @@ citEntry(entry = "Manual",
          url          = "https://github.com/jasinmachkour/tlars",
          textVersion  =
            paste("J. Machkour, S. Tien, D. P. Palomar, and M. Muma (2022).",
-                 "tlars: The Terminated-LARS (T-LARS) algorithm for high-dimensional early terminated forward variable
+                 "tlars: The Terminating-LARS (T-LARS) algorithm for high-dimensional early terminated forward variable
                  selection.", "R package version 0.0.0.9000.", "https://github.com/jasinmachkour/tlars")
 )
 

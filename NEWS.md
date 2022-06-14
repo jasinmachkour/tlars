@@ -1,6 +1,6 @@
 ## Changes in tlars version 0.0.0.9000 2022-05-18)
 
-* Initial Pre-release version contains C++ class: 
+* Initial pre-release version contains C++ class: 
 
 	- tlars_cpp.
 
