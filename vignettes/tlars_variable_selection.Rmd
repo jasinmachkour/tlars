@@ -25,7 +25,7 @@ bibliography: refs.bib
 nocite: |
   @machkour2021terminating, @efron2004least
 vignette: |
-  %\VignetteKeyword{T-LARS, T-Rex selector, false discovery rate (FDR) control, high-dimensional variable selection, martingale theory, genome-wide association studies}
+  %\VignetteKeyword{T-LARS, T-Rex selector, false discovery rate (FDR) control, high-dimensional variable selection, martingale theory, genome-wide association studies (GWAS)}
   %\VignetteEncoding{UTF-8}
   %\VignetteIndexEntry{The Terminating-LARS (T-LARS) Method: Usage and Simulations}
   %\VignetteEngine{knitr::rmarkdown}

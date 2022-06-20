@@ -1,15 +1,15 @@
 #' Toy data generated from a Gaussian linear model
 #'
-#' A dataset containing a predictor matrix X with n = 50 observations
+#' A data set containing a predictor matrix X with n = 50 observations
 #' and p = 100 variables (predictors), and a sparse parameter vector beta
-#' with associated supportort vector.
+#' with associated support vector.
 #'
 #' @format A list containing a matrix X and vectors y, beta, and support:
 #' \describe{
 #'   \item{X}{Predictor matrix, n = 50, p = 100.}
 #'   \item{y}{Response vector.}
 #'   \item{beta}{Parameter vector.}
-#'   \item{support}{supportort vector.}
+#'   \item{support}{support vector.}
 #' }
 #'
 #' @importFrom stats rnorm
