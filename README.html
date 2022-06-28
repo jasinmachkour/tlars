@@ -172,7 +172,7 @@ pre code {
 <h1>tlars</h1>
 <p><strong>Title</strong>: The Terminating-LARS (T-LARS) algorithm for high-dimensional early-terminated forward variable selection</p>
 <p><strong>Description</strong>: It computes the solution path of the Terminating-LARS (T-LARS) algorithm. The T-LARS algorithm appends dummy predictors to the original predictor matrix and terminates the forward-selection process after a pre-defined number of dummy variables has been selected.</p>
-<p><strong>Note</strong>: The T-LARS algorithm is a major building block of the T-Rex selector (<a href="https://arxiv.org/abs/2110.06048">Paper</a> and <a href="https://github.com/jasinmachkour/tknock">R package</a>). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the false discovery rate (FDR), i.e., the expected fraction of selected false positives among all selected variables, at the user-defined target level while maximizing the number of selected variables.</p>
+<p><strong>Note</strong>: The T-LARS algorithm is a major building block of the T-Rex selector (<a href="https://arxiv.org/abs/2110.06048">Paper</a> and <a href="https://github.com/jasinmachkour/trex">R package</a>). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the false discovery rate (FDR), i.e., the expected fraction of selected false positives among all selected variables, at the user-defined target level while maximizing the number of selected variables.</p>
 <p>In the following, we show how to use the package and give you an idea of why terminating the solution path early is a reasonable approach in high-dimensional and sparse variable selection: In many applications, most active variables enter the solution path early!</p>
 <div id="installation" class="section level2">
 <h2>Installation</h2>
@@ -233,7 +233,7 @@ XD &lt;- cbind(X, dummies)</code></pre>
 #&gt;       Finished T-LARS step(s)... 
 #&gt;           - The results are stored in the C++ object &#39;mod_tlars&#39;.
 #&gt;           - New value of T_stop: 3.
-#&gt;           - Time elaped: 0.003 sec.
+#&gt;           - Time elaped: 0.001 sec.
 print(mod_tlars) # Print information about the results of the performed T-LARS steps
 #&gt; &#39;mod_tlars&#39; is a C++ object of class &#39;tlars_cpp&#39; ... 
 #&gt;   - Number of dummies: 150.
@@ -258,7 +258,7 @@ plot(mod_tlars) # Plot the whole solution path</code></pre>
 </div>
 <div id="outlook" class="section level2">
 <h2>Outlook</h2>
-<p>The T-LARS algorithm is a major building block of the T-Rex selector (<a href="https://arxiv.org/abs/2110.06048">Paper</a> and <a href="https://github.com/jasinmachkour/tknock">R package</a>). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the FDR at the user-defined target level while maximizing the number of selected variables. If you are working in genomics, financial engineering, or any other field that requires a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings, then this is for you. Check it out!</p>
+<p>The T-LARS algorithm is a major building block of the T-Rex selector (<a href="https://arxiv.org/abs/2110.06048">Paper</a> and <a href="https://github.com/jasinmachkour/trex">R package</a>). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the FDR at the user-defined target level while maximizing the number of selected variables. If you are working in genomics, financial engineering, or any other field that requires a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings, then this is for you. Check it out!</p>
 </div>
 <div id="documentation" class="section level2">
 <h2>Documentation</h2>
@@ -269,7 +269,7 @@ plot(mod_tlars) # Plot the whole solution path</code></pre>
 <p>tlars package: <a href="https://github.com/jasinmachkour/tlars">GitHub-tlars</a>.</p>
 <p>README file: <a href="https://htmlpreview.github.io/?https://github.com/jasinmachkour/tlars/blob/main/README.html">GitHub-readme</a>.</p>
 <p>Vignette: <a href="https://htmlpreview.github.io/?https://github.com/jasinmachkour/tlars/blob/main/vignettes/tlars_variable_selection.html">GitHub-vignette</a>.</p>
-<p>trex package: <a href="https://github.com/jasinmachkour/tknock">GitHub-trex</a>.</p>
+<p>trex package: <a href="https://github.com/jasinmachkour/trex">GitHub-trex</a>.</p>
 <p>T-Rex paper: <a href="https://arxiv.org/abs/2110.06048" class="uri">https://arxiv.org/abs/2110.06048</a></p>
 </div>
 </div>

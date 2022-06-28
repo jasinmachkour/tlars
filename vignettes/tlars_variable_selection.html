@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2022-06-20" />
+<meta name="date" content="2022-06-28" />
 
 <title>The Terminating-LARS (T-LARS) Method: Usage and Simulations</title>
 
@@ -352,7 +352,7 @@ div.tocify {
 <br />
 <sup>#</sup>Technische Universität Darmstadt<br />
 <sup>*</sup>The Hong Kong University of Science and Technology</div></h4>
-<h4 class="date">2022-06-20</h4>
+<h4 class="date">2022-06-28</h4>
 
 </div>
 
@@ -361,7 +361,7 @@ div.tocify {
 <div id="motivation" class="section level1">
 <h1>Motivation</h1>
 <p>This package implements the <strong>Terminating-LARS (T-LARS)</strong> algorithm, i.e., it computes the solution path of the T-LARS algorithm. The T-LARS algorithm appends dummy predictors to the original predictor matrix and terminates the forward-selection process after a pre-defined number of dummy variables has been selected.</p>
-<p>In contrast, the original LARS algorithm computes the entire solution path without stopping early. However, in certain applications there exists very little or no useful information in later steps of the solution path and, therefore, stopping early allows for huge improvements in terms of computation time and no loss in the variable selection accuracy. Especially the <strong>T-Rex selector</strong> (<a href="https://arxiv.org/abs/2110.06048">Paper</a> and <a href="https://github.com/jasinmachkour/tknock">R package</a>) requires terminating multiple solution paths early after a pre-defined number of dummy variables has been included.</p>
+<p>In contrast, the original LARS algorithm computes the entire solution path without stopping early. However, in certain applications there exists very little or no useful information in later steps of the solution path and, therefore, stopping early allows for huge improvements in terms of computation time and no loss in the variable selection accuracy. Especially the <strong>T-Rex selector</strong> (<a href="https://arxiv.org/abs/2110.06048">Paper</a> and <a href="https://github.com/jasinmachkour/trex">R package</a>) requires terminating multiple solution paths early after a pre-defined number of dummy variables has been included.</p>
 <p>The T-LARS algorithm is a major building block of the <strong>T-Rex selector</strong>. The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the false discovery rate (FDR), i.e., the expected fraction of selected false positives among all selected variables, at the user-defined target level while maximizing the number of selected variables.</p>
 <p>In the following, we show how to use the package and give you an idea of why terminating the solution path early is a reasonable approach in high-dimensional and sparse variable selection: In many applications, most active variables enter the solution path early!</p>
 <!-- Include Latex macros -->
@@ -432,7 +432,7 @@ div.tocify {
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       Finished T-LARS step(s)... </span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - The results are stored in the C++ object &#39;mod_tlars&#39;.</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - New value of T_stop: 1.</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - Time elaped: 0.007 sec.</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - Time elaped: 0.003 sec.</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mod_tlars) <span class="co"># Print information about the results of the performed T-LARS steps</span></span>
 <span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;mod_tlars&#39; is a C++ object of class &#39;tlars_cpp&#39; ... </span></span>
 <span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   - Number of dummies: 300.</span></span>
@@ -457,7 +457,7 @@ div.tocify {
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       Finished T-LARS step(s)... </span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - The results are stored in the C++ object &#39;mod_tlars&#39;.</span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - New value of T_stop: 2.</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - Time elaped: 0.006 sec.</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - Time elaped: 0.002 sec.</span></span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mod_tlars)</span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;mod_tlars&#39; is a C++ object of class &#39;tlars_cpp&#39; ... </span></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   - Number of dummies: 300.</span></span>
@@ -493,7 +493,7 @@ div.tocify {
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       Finished T-LARS step(s)... </span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - The results are stored in the C++ object &#39;mod_tlars&#39;.</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - New value of T_stop: 5.</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - Time elaped: 0.003 sec.</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           - Time elaped: 0.013 sec.</span></span>
 <span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(mod_tlars)</span>
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; &#39;mod_tlars&#39; is a C++ object of class &#39;tlars_cpp&#39; ... </span></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   - Number of dummies: 300.</span></span>
@@ -525,7 +525,7 @@ div.tocify {
 <h1>FDR and TPR</h1>
 <div id="false-discovery-rate-fdr-and-true-positive-rate-tpr" class="section level2">
 <h2>False discovery rate (FDR) and true positive rate (TPR)</h2>
-<p>From a statistical point of view, it is desirable to use a variable selection method that allows for controlling the expected value of the FDP at a user-defined target level <span class="math inline">\(\alpha \in [0, 1]\)</span> while maximizing the number of selected variables. These type of methods exist and are called false discovery rate (FDR)-controlling methods. For example, the <strong>T-Rex selector</strong> (<a href="https://arxiv.org/abs/2110.06048">Paper</a> and <a href="https://github.com/jasinmachkour/tknock">R package</a>) is a fast and FDR-controlling variable/feature selection framework for large-scale high-dimensional settings that relies on the T-LARS method.</p>
+<p>From a statistical point of view, it is desirable to use a variable selection method that allows for controlling the expected value of the FDP at a user-defined target level <span class="math inline">\(\alpha \in [0, 1]\)</span> while maximizing the number of selected variables. These type of methods exist and are called false discovery rate (FDR)-controlling methods. For example, the <strong>T-Rex selector</strong> (<a href="https://arxiv.org/abs/2110.06048">Paper</a> and <a href="https://github.com/jasinmachkour/trex">R package</a>) is a fast and FDR-controlling variable/feature selection framework for large-scale high-dimensional settings that relies on the T-LARS method.</p>
 <p><strong>Definitions</strong> (FDR and TPR) Let <span class="math inline">\(\widehat{\A} \subseteq \lbrace 1, \ldots, p \rbrace\)</span> be the set of selected variables, <span class="math inline">\(\A \subseteq \lbrace 1, \ldots, p \rbrace\)</span> the set of true active variables, <span class="math inline">\(| \widehat{\A} |\)</span> the cardinality of <span class="math inline">\(\widehat{\A}\)</span>, and define <span class="math inline">\(1 \lor a \coloneqq \max\lbrace 1, a \rbrace\)</span>, <span class="math inline">\(a \in \mathbb{R}\)</span>. Then, the false discovery rate (FDR) and the true positive rate (TPR) are defined by <span class="math display">\[
 \FDR \coloneqq \mathbb{E} \big[ \FDP \big] \coloneqq \mathbb{E} \left[ \dfrac{\big| \widehat{\A} \backslash \A \big|}{1 \lor \big| \widehat{\A} \big|} \right]
 \]</span> and</p>
@@ -593,7 +593,7 @@ div.tocify {
 </div>
 <div id="outlook" class="section level1">
 <h1>Outlook</h1>
-<p>The T-LARS algorithm is a major building block of the T-Rex selector (<a href="https://arxiv.org/abs/2110.06048">Paper</a> and <a href="https://github.com/jasinmachkour/tknock">R package</a>). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the FDR at the user-defined target level while maximizing the number of selected variables. If you are working in genomics, financial engineering, or any other field that requires a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings, then this is for you. Check it out!</p>
+<p>The T-LARS algorithm is a major building block of the T-Rex selector (<a href="https://arxiv.org/abs/2110.06048">Paper</a> and <a href="https://github.com/jasinmachkour/trex">R package</a>). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the FDR at the user-defined target level while maximizing the number of selected variables. If you are working in genomics, financial engineering, or any other field that requires a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings, then this is for you. Check it out!</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
