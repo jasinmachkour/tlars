@@ -1,7 +1,7 @@
 Package: tlars
-Title: The Terminating-LARS (T-LARS) algorithm for high-dimensional early-terminated forward variable selection
-Version: 0.0.0.9000
-Date: 2022-04-18
+Title: The Terminating-LARS (T-LARS) Algorithm for High-Dimensional Early-Terminated Forward Variable Selection
+Version: 0.0.1
+Date: 2022-06-29
 Description: Computes the solution path of the Terminating-LARS (T-LARS) algorithm. The T-LARS algorithm 
     is a major building block of the T-Rex selector (see R package "trex").
     The package is based on the papers Machkour, Muma, and Palomar (2021), Efron, Hastie, Johnstone, 
@@ -21,7 +21,7 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 Suggests: 
     knitr,
     rmarkdown,
@@ -29,8 +29,7 @@ Suggests:
     patchwork,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
-Imports: 
-    RcppArmadillo,
+Imports:
     Rcpp,
     methods,
     stats,

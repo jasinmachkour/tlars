@@ -1,3 +1,9 @@
+## Changes in tlars version 0.0.1 2022-06-29)
+
+* First release:
+
+  - Polish pre-release version.
+
 ## Changes in tlars version 0.0.0.9000 2022-05-18)
 
 * Initial pre-release version contains C++ class: 

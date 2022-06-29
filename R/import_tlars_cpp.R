@@ -41,7 +41,6 @@
 #' @useDynLib tlars, .registration = TRUE
 #' @import methods
 #' @import Rcpp
-#' @import RcppArmadillo
 #'
 #' @export tlars_cpp
 #'
