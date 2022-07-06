@@ -16,6 +16,9 @@ the entire solution path is computed.}
 
 \item{info}{If TRUE information about the T-LARS step are printed.}
 }
+\value{
+No return value. Executes the T-LARS algorithm and includes the results in the associated object of class tlars_cpp.
+}
 \description{
 Modifies the generic tlars_cpp model by executing the T-LARS algorithm and including the results in the tlars_cpp model.
 }

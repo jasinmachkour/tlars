@@ -11,6 +11,9 @@
 
 \item{...}{Ignored. Only added to keep structure of generic \link{print} function.}
 }
+\value{
+Prints a summary of the results stored in a C++ object of class tlars_cpp.
+}
 \description{
 Prints a summary of the results stored in a C++ object of class tlars_cpp
 (see \link{tlars_cpp} for details), i.e., selected variables, computation time,

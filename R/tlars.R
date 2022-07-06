@@ -8,6 +8,8 @@
 #' the entire solution path is computed.
 #' @param info If TRUE information about the T-LARS step are printed.
 #'
+#' @return No return value. Executes the T-LARS algorithm and includes the results in the associated object of class tlars_cpp.
+#'
 #' @importFrom stats rnorm
 #' @import methods
 #'
@@ -56,7 +58,7 @@ tlars <- function(model,
     end <- Sys.time()
     elapsed <- end - start
 
-    # Get name of C++ object passed to function argument "model"
+    # Get name of C++ object passed to function argument 'model'
     mod_name <- deparse(substitute(model))
 
     # Print information about the executed T-LARS step
@@ -69,7 +71,7 @@ tlars <- function(model,
         "\t\t\t - New value of T_stop: ",
         T_stop,
         ".\n",
-        "\t\t\t - Time elaped: ",
+        "\t\t\t - Time elapsed: ",
         round(elapsed, digits = 3),
         " sec."
       )
@@ -79,7 +81,7 @@ tlars <- function(model,
         "\t\t\t - The results are stored in the C++ object '",
         mod_name,
         "'.\n",
-        "\t\t\t - Time elaped: ",
+        "\t\t\t - Time elapsed: ",
         round(elapsed, digits = 3),
         " sec."
       )

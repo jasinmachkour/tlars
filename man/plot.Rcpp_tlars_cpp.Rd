@@ -44,6 +44,9 @@ See \link{par} for more details.}
 
 \item{...}{Ignored. Only added to keep structure of generic \link{plot} function.}
 }
+\value{
+Plots the T-LARS solution path stored in C++ objects of class tlars_cpp (no plot for type = "lasso").
+}
 \description{
 Plots the T-LARS solution path stored in C++ objects of class tlars_cpp
 (see \link{tlars_cpp} for details) if the object is created with type = "lar"

@@ -16,6 +16,7 @@
 #'
 #' @examples
 #' # Generated as follows:
+#' old_options <- options(digits = 3) # Store user's options()
 #' set.seed(789)
 #' n <- 50
 #' p <- 100
@@ -29,4 +30,5 @@
 #'   beta = beta,
 #'   support = support
 #' )
+#' options(old_options) # Reset user's options()
 "Gauss_data"

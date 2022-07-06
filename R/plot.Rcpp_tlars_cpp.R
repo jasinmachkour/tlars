@@ -19,6 +19,8 @@
 #' @param legend_pos Legend position. See [xy.coords] for more details.
 #' @param ... Ignored. Only added to keep structure of generic [plot] function.
 #'
+#' @return Plots the T-LARS solution path stored in C++ objects of class tlars_cpp (no plot for type = "lasso").
+#'
 #' @importFrom stats rnorm
 #' @importFrom graphics matplot axis abline mtext legend
 #' @import methods

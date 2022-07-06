@@ -2,7 +2,7 @@
 #'
 #' @title Exposes the C++ class tlars_cpp to R
 #'
-#' @description Type "tlars_cpp" in the console to see the constructors, variables, and methods of the class tlars_cpp.
+#' @description Type 'tlars_cpp' in the console to see the constructors, variables, and methods of the class tlars_cpp.
 #'
 #' @field Constructor: new - Creates a new object of the class tlars_cpp.
 #' @param X Real valued predictor matrix.
@@ -37,6 +37,8 @@
 #' @field Method: get_mean_X - Returns the sample means of the predictors.
 #' @field Method: get_mean_y - Returns the sample mean of the response y.
 #' @field Method: get_all - Returns all class variables: This list can be used as an input to the constructor to re-create an object of class tlars_cpp.
+#'
+#' @return No return value. Exposes the C++ class tlars_cpp to R.
 #'
 #' @useDynLib tlars, .registration = TRUE
 #' @import methods

@@ -13,7 +13,7 @@ output:
 
 
 # tlars
-**Title**: The Terminating-LARS (T-LARS) algorithm for high-dimensional early-terminated forward variable selection
+**Title**: The T-LARS Algorithm: Early-Terminated Forward Variable Selection
 
 **Description**: It computes the solution path of the Terminating-LARS (T-LARS) algorithm. The T-LARS algorithm appends dummy predictors to the original predictor matrix and terminates the forward-selection process after a pre-defined number of dummy variables has been selected.
 
@@ -22,7 +22,7 @@ output:
 In the following, we show how to use the package and give you an idea of why terminating the solution path early is a reasonable approach in high-dimensional and sparse variable selection: In many applications, most active variables enter the solution path early!
 
 ## Installation
-You can install the tlars package from [GitHub](https://github.com/jasinmachkour/tlars) with 
+You can install the 'tlars' package from [GitHub](https://github.com/jasinmachkour/tlars) with 
 
 ``` r
 install.packages("devtools")
@@ -42,7 +42,7 @@ help(package = "tlars")
 ?Gauss_data
 ```
 
-To cite the package ‘tlars’ in publications use:
+To cite the package 'tlars' in publications use:
 
 ```r
 citation("tlars")
@@ -50,7 +50,7 @@ citation("tlars")
 
 
 ## Quick Start
-In the following, we illustrate the basic usage of the tlars package to perform variable selection in sparse and high-dimensional regression settings using the T-LARS algorithm.
+In the following, we illustrate the basic usage of the 'tlars' package to perform variable selection in sparse and high-dimensional regression settings using the T-LARS algorithm.
 
 1. **First**, we generate a high-dimensional Gaussian data set with sparse support:
 
@@ -81,7 +81,7 @@ dummies <- matrix(stats::rnorm(n * num_dummies), nrow = n, ncol = num_dummies)
 XD <- cbind(X, dummies)
 ```
 
-3. **Third**, we generate an object of the C++ class tlars_cpp and supply the information that the last num_dummies predictors in XD are dummy predictors:
+3. **Third**, we generate an object of the C++ class 'tlars_cpp' and supply the information that the last num_dummies predictors in XD are dummy predictors:
 
 
 ```r
@@ -91,9 +91,9 @@ mod_tlars <- tlars_model(X = XD, y = y, num_dummies = num_dummies)
 #> 		 the last num_dummies = 150 predictors are dummies
 ```
 
-4. **Finally**, we perform three T-LARS steps on "mod_tlars", i.e., the T-LARS algorithm is run until **T_stop = 3** dummies have entered the solution path and stops there. For comparison, we also compute the whole solution path by setting early_stop = FALSE:
+4. **Finally**, we perform three T-LARS steps on 'mod_tlars', i.e., the T-LARS algorithm is run until **T_stop = 3** dummies have entered the solution path and stops there. For comparison, we also compute the whole solution path by setting early_stop = FALSE:
 
-4.1. Perform three T-LARS steps on object "mod_tlars":
+4.1. Perform three T-LARS steps on object 'mod_tlars':
 
 
 ```r
@@ -102,7 +102,7 @@ tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE) # Perform three T-LARS s
 #> 		 Finished T-LARS step(s)... 
 #> 			 - The results are stored in the C++ object 'mod_tlars'.
 #> 			 - New value of T_stop: 3.
-#> 			 - Time elaped: 0.001 sec.
+#> 			 - Time elapsed: 0.001 sec.
 print(mod_tlars) # Print information about the results of the performed T-LARS steps
 #> 'mod_tlars' is a C++ object of class 'tlars_cpp' ... 
 #> 	 - Number of dummies: 150.
@@ -122,7 +122,7 @@ tlars(model = mod_tlars, early_stop = FALSE) # Compute the whole solution path
 #> Executing T-LARS step by reference...
 #> 		 Finished T-LARS step(s). No early stopping! 
 #> 			 - The results are stored in the C++ object 'mod_tlars'.
-#> 			 - Time elaped: 0.006 sec.
+#> 			 - Time elapsed: 0.009 sec.
 print(mod_tlars) # Print information about the results
 #> 'mod_tlars' is a C++ object of class 'tlars_cpp' ... 
 #> 	 - Number of dummies: 150.
@@ -151,3 +151,5 @@ Vignette: [GitHub-vignette](https://htmlpreview.github.io/?https://github.com/ja
 trex package: [GitHub-trex](https://github.com/jasinmachkour/trex).
 
 T-Rex paper: https://arxiv.org/abs/2110.06048
+
+

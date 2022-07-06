@@ -23,6 +23,7 @@ with associated support vector.
 }
 \examples{
 # Generated as follows:
+old_options <- options(digits = 3) # Store user's options()
 set.seed(789)
 n <- 50
 p <- 100
@@ -36,5 +37,6 @@ Gauss_data <- list(
   beta = beta,
   support = support
 )
+options(old_options) # Reset user's options()
 }
 \keyword{datasets}

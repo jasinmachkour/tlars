@@ -11,6 +11,9 @@ output:
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
+# Store user's options()
+old_options <- options(digits = 3)
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -20,7 +23,7 @@ knitr::opts_chunk$set(
 ```
 
 # tlars
-**Title**: The Terminating-LARS (T-LARS) algorithm for high-dimensional early-terminated forward variable selection
+**Title**: The T-LARS Algorithm: Early-Terminated Forward Variable Selection
 
 **Description**: It computes the solution path of the Terminating-LARS (T-LARS) algorithm. The T-LARS algorithm appends dummy predictors to the original predictor matrix and terminates the forward-selection process after a pre-defined number of dummy variables has been selected.
 
@@ -29,7 +32,7 @@ knitr::opts_chunk$set(
 In the following, we show how to use the package and give you an idea of why terminating the solution path early is a reasonable approach in high-dimensional and sparse variable selection: In many applications, most active variables enter the solution path early!
 
 ## Installation
-You can install the tlars package from [GitHub](https://github.com/jasinmachkour/tlars) with 
+You can install the 'tlars' package from [GitHub](https://github.com/jasinmachkour/tlars) with 
 
 ``` r
 install.packages("devtools")
@@ -48,14 +51,14 @@ help(package = "tlars")
 ?Gauss_data
 ```
 
-To cite the package ‘tlars’ in publications use:
+To cite the package 'tlars' in publications use:
 ```{r, eval=FALSE}
 citation("tlars")
 ```
 
 
 ## Quick Start
-In the following, we illustrate the basic usage of the tlars package to perform variable selection in sparse and high-dimensional regression settings using the T-LARS algorithm.
+In the following, we illustrate the basic usage of the 'tlars' package to perform variable selection in sparse and high-dimensional regression settings using the T-LARS algorithm.
 
 1. **First**, we generate a high-dimensional Gaussian data set with sparse support:
 
@@ -84,15 +87,15 @@ dummies <- matrix(stats::rnorm(n * num_dummies), nrow = n, ncol = num_dummies)
 XD <- cbind(X, dummies)
 ```
 
-3. **Third**, we generate an object of the C++ class tlars_cpp and supply the information that the last num_dummies predictors in XD are dummy predictors:
+3. **Third**, we generate an object of the C++ class 'tlars_cpp' and supply the information that the last num_dummies predictors in XD are dummy predictors:
 
 ```{r}
 mod_tlars <- tlars_model(X = XD, y = y, num_dummies = num_dummies)
 ```
 
-4. **Finally**, we perform three T-LARS steps on "mod_tlars", i.e., the T-LARS algorithm is run until **T_stop = 3** dummies have entered the solution path and stops there. For comparison, we also compute the whole solution path by setting early_stop = FALSE:
+4. **Finally**, we perform three T-LARS steps on 'mod_tlars', i.e., the T-LARS algorithm is run until **T_stop = 3** dummies have entered the solution path and stops there. For comparison, we also compute the whole solution path by setting early_stop = FALSE:
 
-4.1. Perform three T-LARS steps on object "mod_tlars":
+4.1. Perform three T-LARS steps on object 'mod_tlars':
 
 ```{r terminated_solution_path, echo=TRUE, fig.align='center', message=TRUE, fig.width = 10, fig.height = 6, out.width = "90%"}
 tlars(model = mod_tlars, T_stop = 3, early_stop = TRUE) # Perform three T-LARS steps on object "mod_tlars"
@@ -126,3 +129,8 @@ Vignette: [GitHub-vignette](https://htmlpreview.github.io/?https://github.com/ja
 trex package: [GitHub-trex](https://github.com/jasinmachkour/trex).
 
 T-Rex paper: https://arxiv.org/abs/2110.06048
+
+```{r, include = FALSE}
+# Reset user's options()
+options(old_options)
+```

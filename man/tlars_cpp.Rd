@@ -25,8 +25,11 @@
 \item{early_stop}{Logical. If TRUE, then the forward selection process is stopped after T_stop dummies have been included.
 Otherwise the entire solution path is computed.}
 }
+\value{
+No return value. Exposes the C++ class tlars_cpp to R.
+}
 \description{
-Type "tlars_cpp" in the console to see the constructors, variables, and methods of the class tlars_cpp.
+Type 'tlars_cpp' in the console to see the constructors, variables, and methods of the class tlars_cpp.
 }
 \section{Fields}{
 

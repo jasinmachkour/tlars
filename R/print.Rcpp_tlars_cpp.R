@@ -7,6 +7,8 @@
 #' @param x Object of the class tlars_cpp. See [tlars_cpp] for details.
 #' @param ... Ignored. Only added to keep structure of generic [print] function.
 #'
+#' @return Prints a summary of the results stored in a C++ object of class tlars_cpp.
+#'
 #' @importFrom stats rnorm
 #' @import methods
 #'
@@ -55,7 +57,7 @@ print.Rcpp_tlars_cpp <- function(x,
   # Number of original variables (without dummies)
   p <- length(beta) - num_dummies
 
-  # Get name of C++ object passed to function argument "model"
+  # Get name of C++ object passed to function argument 'model'
   mod_name <- deparse(substitute(x))
 
   # Generate message to be printed
