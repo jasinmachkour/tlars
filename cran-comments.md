@@ -1,5 +1,5 @@
 ## Resubmission
-This is a resubmission that adresses the comments on the initial submission. The following changes were made:
+This is a resubmission that addresses the comments on the initial submission. The following changes were made:
 
  * The title is reduced to 65 characters.
  * Package names are written in single quotes.
