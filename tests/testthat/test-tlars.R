@@ -114,3 +114,34 @@ test_that("the user is informed that the entire solution path is computed if ear
     fixed = TRUE
   )
 })
+
+# 4
+test_that("running T-LARS also works for low-dimensional data (i.e., fewer variables than samples)", {
+  # Setup and data generation
+  n <- 300
+  p <- 100
+  X <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+  beta <- c(rep(5, times = 3), rep(0, times = p - 3))
+  y <- X %*% beta + stats::rnorm(n)
+  num_dummies <- p
+  dummies <-
+    matrix(stats::rnorm(n * p), nrow = n, ncol = num_dummies)
+  XD <- cbind(X, dummies)
+
+  # Create T-LARS model
+  mod_tlars <- tlars_model(
+    X = XD,
+    y = y,
+    num_dummies = num_dummies
+  )
+
+  # Tests
+  expect_error(
+    tlars(
+      model = mod_tlars,
+      T_stop = 3,
+      early_stop = TRUE
+    ),
+    NA
+  )
+})

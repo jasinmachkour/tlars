@@ -12,7 +12,7 @@ output:
 
 ```{r, include = FALSE}
 # Store user's options()
-old_options <- options(digits = 3)
+old_options <- options()
 
 knitr::opts_chunk$set(
   collapse = TRUE,

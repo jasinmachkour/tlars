@@ -122,7 +122,7 @@ tlars(model = mod_tlars, early_stop = FALSE) # Compute the whole solution path
 #> Executing T-LARS step by reference...
 #> 		 Finished T-LARS step(s). No early stopping! 
 #> 			 - The results are stored in the C++ object 'mod_tlars'.
-#> 			 - Time elapsed: 0.009 sec.
+#> 			 - Time elapsed: 0.01 sec.
 print(mod_tlars) # Print information about the results
 #> 'mod_tlars' is a C++ object of class 'tlars_cpp' ... 
 #> 	 - Number of dummies: 150.

@@ -288,3 +288,27 @@ test_that("output is a C++ object of class tlars_cpp", {
   # Tests
   expect_true(methods::is(object = mod_tlars, class2 = tlars::tlars_cpp))
 })
+
+# 8
+test_that("creating a T-LARS model also works for low-dimensional data (i.e., fewer variables than samples)", {
+  # Setup and data generation
+  n <- 300
+  p <- 100
+  X <- matrix(stats::rnorm(n * p), nrow = n, ncol = p)
+  beta <- c(rep(5, times = 3), rep(0, times = p - 3))
+  y <- X %*% beta + stats::rnorm(n)
+  num_dummies <- p
+  dummies <-
+    matrix(stats::rnorm(n * p), nrow = n, ncol = num_dummies)
+  XD <- cbind(X, dummies)
+
+  # Tests
+  expect_error(
+    tlars_model(
+      X = XD,
+      y = y,
+      num_dummies = num_dummies
+    ),
+    NA
+  )
+})
