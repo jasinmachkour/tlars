@@ -1,3 +1,13 @@
+## Package update
+This is an update of the tlars R package:
+
+  * Version is increased to 1.0.0 (stable version).
+  * Supporting scientific papers were updated.
+  * C++11 specification was dropped.
+  * DESCRIPTION, NEWS, README were updated.
+  * Package was polished (vignettes, etc.).
+  
+
 ## Resubmission 2
 This is a resubmission that addresses the comments on the previous submission. The following changes were made:
 

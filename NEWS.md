@@ -1,3 +1,11 @@
+## Changes in tlars version 1.0.0 2024-02-20)
+
+* Package update (stable version):
+
+  - Update supporting scientific papers.
+  - Polish previous version.
+  - Drop C++11 specification.
+
 ## Changes in tlars version 0.0.1 2022-07-11)
 
 * First release:

@@ -13,16 +13,32 @@ output:
 
 
 # tlars
+
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/tlars)](https://CRAN.R-project.org/package=tlars)
+[![CRAN Downloads](https://cranlogs.r-pkg.org/badges/tlars)](https://CRAN.R-project.org/package=tlars)
+![CRAN Downloads Total](https://cranlogs.r-pkg.org/badges/grand-total/tlars?color=brightgreen)
+
 **Title**: The T-LARS Algorithm: Early-Terminated Forward Variable Selection
 
 **Description**: It computes the solution path of the Terminating-LARS (T-LARS) algorithm. The T-LARS algorithm appends dummy predictors to the original predictor matrix and terminates the forward-selection process after a pre-defined number of dummy variables has been selected.
 
-**Note**: The T-LARS algorithm is a major building block of the T-Rex selector ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/trex)). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the false discovery rate (FDR), i.e., the expected fraction of selected false positives among all selected variables, at the user-defined target level while maximizing the number of selected variables.
+**Paper**: The package is based on the paper
+
+J. Machkour, M. Muma, and D. P. Palomar, “The terminating-random experiments selector: Fast high-dimensional variable selection with false discovery rate control,” arXiv preprint arXiv:2110.06048, 2022. (<https://doi.org/10.48550/arXiv.2110.06048>)
+
+**Note**: The T-LARS algorithm is a major building block of the T-Rex selector ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://CRAN.R-project.org/package=TRexSelector)). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the false discovery rate (FDR), i.e., the expected fraction of selected false positives among all selected variables, at the user-defined target level while maximizing the number of selected variables.
 
 In the following, we show how to use the package and give you an idea of why terminating the solution path early is a reasonable approach in high-dimensional and sparse variable selection: In many applications, most active variables enter the solution path early!
 
 ## Installation
-You can install the 'tlars' package from [GitHub](https://github.com/jasinmachkour/tlars) with 
+You can install the 'tlars' package (stable version) from [CRAN](https://CRAN.R-project.org/package=tlars) with 
+
+``` r
+install.packages("tlars")
+library(tlars)
+```
+
+You can install the 'tlars' package (developer version) from [GitHub](https://github.com/jasinmachkour/tlars) with 
 
 ``` r
 install.packages("devtools")
@@ -122,7 +138,7 @@ tlars(model = mod_tlars, early_stop = FALSE) # Compute the whole solution path
 #> Executing T-LARS step by reference...
 #> 		 Finished T-LARS step(s). No early stopping! 
 #> 			 - The results are stored in the C++ object 'mod_tlars'.
-#> 			 - Time elapsed: 0.01 sec.
+#> 			 - Time elapsed: 0.004 sec.
 print(mod_tlars) # Print information about the results
 #> 'mod_tlars' is a C++ object of class 'tlars_cpp' ... 
 #> 	 - Number of dummies: 150.
@@ -134,7 +150,7 @@ plot(mod_tlars) # Plot the whole solution path
 <img src="man/figures/README-full_solution_path-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Outlook
-The T-LARS algorithm is a major building block of the T-Rex selector ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://github.com/jasinmachkour/trex)). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the FDR at the user-defined target level while maximizing the number of selected variables. If you are working in genomics, financial engineering, or any other field that requires a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings, then this is for you. Check it out!
+The T-LARS algorithm is a major building block of the T-Rex selector ([Paper](https://arxiv.org/abs/2110.06048) and [R package](https://CRAN.R-project.org/package=TRexSelector)). The T-Rex selector performs terminated-random experiments (T-Rex) using the T-LARS algorithm and fuses the selected active sets of all random experiments to obtain a final set of selected variables. The T-Rex selector provably controls the FDR at the user-defined target level while maximizing the number of selected variables. If you are working in genomics, financial engineering, or any other field that requires a fast and FDR-controlling variable/feature selection method for large-scale high-dimensional settings, then this is for you. Check it out!
 
 ## Documentation
 For more information and some examples, please check the
@@ -142,13 +158,15 @@ For more information and some examples, please check the
 
 
 ## Links
-tlars package: [GitHub-tlars](https://github.com/jasinmachkour/tlars).
+tlars package (stable version): [CRAN-tlars](https://CRAN.R-project.org/package=tlars).
+
+tlars package (developer version): [GitHub-tlars](https://github.com/jasinmachkour/tlars).
 
 README file: [GitHub-readme](https://htmlpreview.github.io/?https://github.com/jasinmachkour/tlars/blob/main/README.html).
 
 Vignette: [GitHub-vignette](https://htmlpreview.github.io/?https://github.com/jasinmachkour/tlars/blob/main/vignettes/tlars_variable_selection.html).
 
-trex package: [GitHub-trex](https://github.com/jasinmachkour/trex).
+TRexSelector package: [CRAN-TRexSelector](https://CRAN.R-project.org/package=TRexSelector).
 
 T-Rex paper: https://arxiv.org/abs/2110.06048
 
