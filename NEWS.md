@@ -1,4 +1,4 @@
-## Changes in tlars version 1.0.0 2024-02-20)
+## Changes in tlars version 1.0.0 2024-02-20
 
 * Package update (stable version):
 
@@ -6,13 +6,13 @@
   - Polish previous version.
   - Drop C++11 specification.
 
-## Changes in tlars version 0.0.1 2022-07-11)
+## Changes in tlars version 0.0.1 2022-07-11
 
 * First release:
 
   - Polish pre-release version.
 
-## Changes in tlars version 0.0.0.9000 2022-05-18)
+## Changes in tlars version 0.0.0.9000 2022-05-18
 
 * Initial pre-release version contains C++ class: 
 
