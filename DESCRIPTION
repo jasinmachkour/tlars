@@ -1,7 +1,7 @@
 Package: tlars
 Title: The T-LARS Algorithm: Early-Terminated Forward Variable Selection
-Version: 1.0.0
-Date: 2024-02-21
+Version: 1.0.1
+Date: 2024-02-24
 Description: Computes the solution path of the Terminating-LARS (T-LARS) algorithm. The T-LARS algorithm 
     is a major building block of the T-Rex selector (see R package 'TRexSelector').
     The package is based on the papers Machkour, Muma, and Palomar (2022) <arXiv:2110.06048>, Efron, Hastie, Johnstone, 

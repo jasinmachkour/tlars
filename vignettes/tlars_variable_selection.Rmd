@@ -21,7 +21,7 @@ output:
     toc: yes
     toc_depth: 2
 toc-title: "Table of Contents"    
-csl: the-annals-of-statistics.csl # https://www.zotero.org/styles
+csl: ieee.csl
 bibliography: refs.bib
 nocite: |
   @machkour2022terminating, @efron2004least

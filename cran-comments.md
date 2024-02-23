@@ -1,4 +1,10 @@
 ## Package update
+This is a minor update of the tlars R package:
+  
+  * Version is increased to 1.0.1.
+  * annals-of-statistics.csl is replaced with ieee.csl to fix a minor vignette re-building error on some linux flavors.
+
+## Package update
 This is an update of the tlars R package:
 
   * Version is increased to 1.0.0 (stable version).
@@ -7,7 +13,6 @@ This is an update of the tlars R package:
   * DESCRIPTION, NEWS, README were updated.
   * Package was polished (vignettes, etc.).
   
-
 ## Resubmission 2
 This is a resubmission that addresses the comments on the previous submission. The following changes were made:
 
